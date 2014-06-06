@@ -4,7 +4,10 @@ ruby '2.1.2'
 
 gem 'rails', '4.0.5'
 
-gem 'rails_12factor', group: :production
+group :production do
+  gem 'rails_12factor'
+  gem 'pg'
+end
 
 group :development do
   gem 'pg'
