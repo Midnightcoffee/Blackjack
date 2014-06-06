@@ -5,10 +5,8 @@ ruby '2.1.2'
 gem 'rails', '4.0.5'
 gem 'pg'
 gem 'jquery-rails'
+gem 'uglifier', '>= 1.3.0'
 gem 'turbolinks'
-
-
-
 
 group :production do
   gem 'rails_12factor'
