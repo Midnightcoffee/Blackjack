@@ -5,6 +5,9 @@ ruby '2.1.2'
 gem 'rails', '4.0.5'
 gem 'pg'
 gem 'jquery-rails'
+gem 'turbolinks'
+
+
 
 
 group :production do
