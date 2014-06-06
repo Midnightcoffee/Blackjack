@@ -3,14 +3,12 @@ ruby '2.1.2'
 #ruby-gemset=blackjack_4_0
 
 gem 'rails', '4.0.5'
+gem 'pg'
+gem 'jquery-rails'
+
 
 group :production do
   gem 'rails_12factor'
-  gem 'pg'
-end
-
-group :development do
-  gem 'pg'
 end
 
 group :test, :development do
