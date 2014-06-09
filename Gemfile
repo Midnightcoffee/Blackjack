@@ -14,7 +14,8 @@ end
 
 group :test, :development do
   gem 'fabrication', '2.11.2'
-  gem 'cucumber-rails', '~> 1.4.1'
+  gem 'cucumber-rails', '~> 1.4.1', require: false
+  gem 'database_cleaner', '~> 1.3.0' 
   gem 'capybara-webkit'
   gem 'capybara'
   gem 'konacha', '~> 3.2.3'
