@@ -14,7 +14,7 @@ end
 
 group :test, :development do
   gem 'fabrication', '2.11.2'
-  gem 'cucumber', '~> 1.3.15'
+  gem 'cucumber-rails', '~> 1.4.1'
   gem 'capybara-webkit'
   gem 'capybara'
   gem 'konacha', '~> 3.2.3'
