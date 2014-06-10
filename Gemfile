@@ -19,6 +19,7 @@ group :test, :development do
   gem 'capybara-webkit'
   gem 'capybara'
   gem 'konacha', '~> 3.2.3'
+  gem 'rspec', '~> 3.0.0'
 end
 
 group :doc do
