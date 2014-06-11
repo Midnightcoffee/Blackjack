@@ -1,6 +1,9 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe "Levels API" do
+# TODO: better description
+
+describe Api::V1::LevelsController do
+
   describe "Get /levels" do
     it 'sends a list of levels' do
 
