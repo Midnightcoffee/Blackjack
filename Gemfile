@@ -16,9 +16,11 @@ group :test, :development do
   gem 'fabrication', '2.11.2'
   gem 'cucumber-rails', '~> 1.4.1', require: false
   gem 'database_cleaner', '~> 1.3.0' 
+  gem 'capybara-webkit'
   gem 'capybara'
   gem 'konacha', '~> 3.2.3'
   gem 'rspec-rails', '~> 3.0.0'
+  gem 'mocha', '~> 1.1.0'
 end
 
 group :doc do
