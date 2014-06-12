@@ -7,6 +7,7 @@ gem 'pg'
 gem 'jquery-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'turbolinks'
+gem 'haml-rails', '~> 0.5.3'
 
 group :production do
   gem 'rails_12factor'

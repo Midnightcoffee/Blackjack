@@ -1,2 +1,2 @@
 Blackjack.factory "Lobby", ($resource) ->
-    $resource("/lobby")
+    $resource("/api/v1/lobby/")
