@@ -3,6 +3,8 @@ require 'rails_helper'
 describe "Lobby Api" do
 
   describe "Get /lobby" do
+
+
     it "sends a levels and players chip stack" do
 
       get '/api/v1/lobby'
