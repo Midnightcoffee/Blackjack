@@ -20,7 +20,6 @@ group :test, :development do
   gem 'capybara'
   gem 'konacha', '~> 3.2.3'
   gem 'rspec-rails', '~> 3.0.0'
-  gem 'mocha', '~> 1.1.0'
 end
 
 group :doc do

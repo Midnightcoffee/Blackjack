@@ -7,3 +7,5 @@
 #= require_tree ./controllers/main
 #= require_tree ./directives/global
 #= require_tree ./directives/main
+#
+Blackjack = angular.module("Blackjack", ["ngResource"]);
