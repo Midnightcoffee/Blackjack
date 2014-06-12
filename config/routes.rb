@@ -2,7 +2,7 @@ Blackjack::Application.routes.draw do
   get "main/lobby"
   namespace :api do
     namespace :v1 do
-      resources :levels, only: :index
+      resources :lobby, only: :index
     end
   end
 
