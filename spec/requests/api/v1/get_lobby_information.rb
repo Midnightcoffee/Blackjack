@@ -12,7 +12,7 @@ describe "Lobby Api" do
       expect(response).to be_success
       json = JSON.parse(response.body)
       json['levels'] = 'Beginner'
-      json['totalChips'] = '0'
+      json['totalChips'] = 100
     end
   end
 end

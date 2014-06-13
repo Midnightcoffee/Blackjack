@@ -1,13 +1,10 @@
-.app-player-stats-widget
+.app-lobby{ "ng-controller" => "LobbyCtrl", "ng-init" => "getLobby()" }
+  .app-player-stats-widget
+    {{ lobby.total_chips }}
 
-.app-game-levels{"ng-app" => "Blackjack", "ng-controller" => "LobbyCtrl"}
-  %a{:href => "TODO" } Beginner
+  .app-game-levels
+    %a{:href => "{{ lobby.level }}" } Beginner
 
--# "ng-app"=> "Blackjack", "ng-controller" => "LobbyCtrl", 
--# "ng-init" => "getLobby()"
-
-
--#   <a ng-href="#/">Back</a>
 
 
 

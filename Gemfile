@@ -14,6 +14,7 @@ group :production do
 end
 
 group :test, :development do
+  gem 'selenium-webdriver', '~> 2.42.0'
   gem 'fabrication', '2.11.2'
   gem 'cucumber-rails', '~> 1.4.1', require: false
   gem 'database_cleaner', '~> 1.3.0' 
