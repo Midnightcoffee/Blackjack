@@ -2,9 +2,8 @@
 
 
 describe "build", ->
-    @scope = {}
-    it "up", ->
-        @LobbyCtrl.scope = @scope
+    it "works", ->
+        expect(true).to.be.truthy
 
         
 
