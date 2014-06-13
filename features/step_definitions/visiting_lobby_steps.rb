@@ -3,7 +3,7 @@ Given /^a user visits the lobby$/ do
 end
 
 Then /^they should see an option to create a beginner game$/ do
-  page.find_link('Beginner').visible?
+  page.has_link?('Beginner')
 end
 
 And /^a player stats widget.$/ do

@@ -1,6 +1,6 @@
 Blackjack::Application.routes.draw do
   root to: "main#lobby"
-  namespace :api do
+  namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
       resources :lobby, only: :index
     end
