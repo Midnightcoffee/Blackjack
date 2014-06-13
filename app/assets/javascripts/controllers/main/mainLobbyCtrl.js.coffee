@@ -1,4 +1,6 @@
-#= require lobby
+#= require models/lobby
+
+
 Blackjack = angular.module("Blackjack")
 
 
