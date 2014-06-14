@@ -1,10 +1,1 @@
-.app-lobby{ "ng-controller" => "LobbyCtrl", "ng-init" => "getLobby()" }
-  .app-player-stats-widget
-    {{ lobby.total_chips }}
-
-  .app-game-levels
-    %a{:href => "{{ lobby.level }}" } Beginner
-
-
-
-
+.app-lobby{ "ng-controller" => "LobbyCtrl" , "ng-view" => ""}

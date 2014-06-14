@@ -8,6 +8,7 @@ gem 'jquery-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'turbolinks'
 gem 'haml-rails', '~> 0.5.3'
+gem 'angular-rails-templates'
 
 group :production do
   gem 'rails_12factor'
