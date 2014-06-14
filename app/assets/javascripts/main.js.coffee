@@ -5,7 +5,7 @@ Blackjack = angular.module("Blackjack", ["ngRoute", "ngResource"])
 Blackjack.config ($routeProvider) ->
     $routeProvider
         .when "/",
-            template: "{{ lobby.level }} {{ lobby.total_chips }}"
+            templateUrl: "assets/main/lobby.html"
             controller: "LobbyCtrl"
 
 
