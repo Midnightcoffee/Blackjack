@@ -1,25 +1,6 @@
 //= require application
 //= require angular-mocks
 
-
-// coffee!
-// describe "LobbyCtrl", ->
-//     beforeEach module('Blackjack')
-
-//     beforeEach inject(($injector, $controller, $rootScope) ->
-//         @scope = $rootScope.$new()
-//         @subject = $controller("LobbyCtrl", {$scope: @scope, lobby: {level: "Beginner", total_chips: 100}})
-//     )
-
-//     it "has a lobby property", ->
-//         expect(@scope.lobby).to.exist
-
-//     it "has a lobby property", ->
-//         v = @scope.lobby
-//         expect(v).to.equal(1)
-
-
-
 describe("LobbyCtrl", function(){
     var mockScope = {};
     var controller;
