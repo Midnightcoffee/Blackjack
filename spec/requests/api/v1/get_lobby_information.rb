@@ -4,15 +4,15 @@ describe "Lobby Api" do
 
   describe "Get /lobby" do
 
-
+        
     it "sends a levels and players chip stack" do
 
       get '/api/v1/lobby'
 
       expect(response).to be_success
       json = JSON.parse(response.body)
-      json['levels'] = 'Beginner'
-      json['totalChips'] = 100
+      expect(json['level']).to eq('Beginner')
+      expect(json['total_chips']).to eq(100)
     end
   end
 end
