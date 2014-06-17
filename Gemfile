@@ -23,6 +23,7 @@ group :test, :development do
   gem 'konacha', '~> 3.2.3'
   gem 'rspec-rails', '~> 3.0.0'
   gem 'factory_girl_rails'
+  gem 'poltergeist', '~> 1.5.1'
 end
 
 group :doc do

@@ -7,7 +7,7 @@ describe "Lobby Api" do
 
 
         
-    it "sends a levels and players chip stack" do
+    it "sends levels and players chip stack" do
 
       get '/api/v1/lobby'
 

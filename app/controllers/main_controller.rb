@@ -2,7 +2,7 @@ class MainController < ApplicationController
   def lobby
   end
 
-  def current_game
+  def game
   end
 
 end

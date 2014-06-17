@@ -8,4 +8,7 @@
 #
 require 'factory_girl_rails'
 
-FactoryGirl.create(:player)
+
+player = FactoryGirl.create(:player)
+FactoryGirl.create(:game, player_id: player.id, :player_hand: "Spade,10|Spade,Ace")
+

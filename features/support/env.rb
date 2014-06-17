@@ -3,13 +3,20 @@
 # newer version of cucumber-rails. Consider adding your own code to a new file
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
-
 require 'cucumber/rails'
+require 'database_cleaner'
+require 'database_cleaner/cucumber'
+require 'capybara/rspec'
+require 'capybara/poltergeist'
 
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
 # selectors in your step definitions to use the XPath syntax.
 # Capybara.default_selector = :xpath
+
+Capybara.default_driver = :poltergeist
+Capybara.javascript_driver = :poltergeist
+
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how
@@ -34,6 +41,10 @@ begin
   DatabaseCleaner.strategy = :transaction
 rescue NameError
   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
+end
+
+Before do
+  DatabaseCleaner.clean
 end
 
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.

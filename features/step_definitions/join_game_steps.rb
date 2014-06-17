@@ -1,13 +1,13 @@
+# When /^they click "Beginner"$/ do
+#   page.click_button("Beginner")
+# end
 
-Given /^a user visits the blackjack game room$/ do
-  visit '/main/current_game'  
-end
+# Then /^they should join the game$/ do
+#   player = Player.first
+#   expect(player.game.id).to eql(1)
+# end
 
-When /^they click "join game"$/ do
-  page.click_button("join game")
-end
+# And /^they should be put into the game room$/ do
+#   expect(page).to have_text("Dealer Cards")
+# end
 
-Then /^they should join the game$/ do
-  #TODO 
-end
-  

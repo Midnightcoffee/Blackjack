@@ -2,7 +2,6 @@ module Api
   module V1
     class LobbyController < ApplicationController 
 
-
       def index
         @player = Player.first
         render json: {
