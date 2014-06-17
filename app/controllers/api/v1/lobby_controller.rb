@@ -8,6 +8,7 @@ module Api
           "level" => 'Beginner', 
           'total_chips' => @player.total_chips}, status: 200
       end
+
     end
   end
 end

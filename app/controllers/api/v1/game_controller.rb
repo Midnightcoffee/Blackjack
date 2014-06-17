@@ -7,12 +7,10 @@ module Api
       end
 
       def create
-        # TODO: handle if they can join this game
-        # and if so then have model join them to it
-        # break logic up between models
-        redirect_to '/game'
+        #TODO check to see if they can join
+        #FIXME should this be a post?
+        redirect_to "/game"
       end
-
 
     end
   end

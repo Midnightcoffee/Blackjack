@@ -1,8 +1,9 @@
 <h1>Total Chips: {{lobby.total_chips}}</h1>
-<form action="/api/v1/game" method="POST" >
+<form action="/api/v1/game" method="GET" >
 
   <h1>Play a game -
-    <input type="radio" name="lobby.levels" value="{{ lobby.level }}">{{ lobby.level }} 
+    <input type="radio" name="lobby.levels" value="{{ lobby.level }}">
+    {{ lobby.level }} 
   </h1>
   <input type="submit" value="Play">
 </form>
