@@ -42,7 +42,7 @@ Blackjack.controller("LobbyCtrl", function($scope, $http, $location){
       });
    };
 });
-
+// FIXME: bet vs amount
 Blackjack.controller("GameCtrl", function($scope, $http){
 
   $http.get("/api/v1/game").success(function (data) {
@@ -52,10 +52,16 @@ Blackjack.controller("GameCtrl", function($scope, $http){
   $scope.amount = 0;
   // FIXME is this intro to callback hell?
   $scope.bet = function(){
-    data = {bet: $scope.bet}
+
+    data = {bet: $scope.amount}
+    // FIXME: if game exists it should be a PUT..
     $http.post("/api/v1/game", data)
       .success(function () {
-        console.log('Game bet success');
+
+        $http.get("/api/v1/game").success(function (data) {
+          $scope.game = data;
+        });
+
       })
     
   };

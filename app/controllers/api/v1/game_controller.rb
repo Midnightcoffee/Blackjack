@@ -4,7 +4,9 @@ module Api
 
       def index
         # TODO: current mock data
-        render json: {'level' => 'Beginner'}, status:200
+        @game = Game.first
+        render json: {'level' => 'Beginner', 'amount' => "#{@game.player_bet}"}, status:200
+        #TODO: how do i have it condition on state of game?
       end
 
       def create
@@ -12,8 +14,12 @@ module Api
         # @game = get bet from player
         # @game.start
         # can you play
-        #
-        render json: {}, status: 200 
+        # TODO: consider game.find_by(1) vs game.first
+        @game = Game.first
+        #TODO go in model?
+        @game.player_bet = params[:bet]
+        @game.save!
+        render json: {"currentBet" => "#{@game.player_bet}"}, status: 200 
         
       end
 
