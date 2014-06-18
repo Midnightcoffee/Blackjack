@@ -1,9 +1,6 @@
 <h1>Total Chips: {{lobby.total_chips}}</h1>
-<form action="/api/v1/game" method="GET" >
+<form>
 
-  <h1>Play a game -
-    <input type="radio" name="lobby.levels" value="{{ lobby.level }}">
-    {{ lobby.level }} 
-  </h1>
-  <input type="submit" value="Play">
+  <input type="radio" ng-model="level.selected" value="{{ lobby.level }}" />{{ lobby.level }}
+  <button ng-click="play(level.selected)">PLAY</button>
 </form>

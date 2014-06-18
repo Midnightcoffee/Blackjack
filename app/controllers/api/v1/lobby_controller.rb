@@ -9,6 +9,15 @@ module Api
           'total_chips' => @player.total_chips}, status: 200
       end
 
+      def create
+        # TODO: if they can play game
+        # @player = Player.first
+        # level = params[:level]
+        # TODO: what make sense here?
+        # TODO: set game level on game with choosen game 
+        render json: {}, status: 200 
+      end
+
     end
   end
 end

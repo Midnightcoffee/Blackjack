@@ -2,11 +2,10 @@ Blackjack::Application.routes.draw do
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
       resources :lobby, only: [:index, :create]
-      resources :game, only: [:index, :show]
+      resources :game, only: [:index, :show, :create]
     end
   end
-  root to: "main#lobby"
-  match "/game", to: "main#game", via: "get"
+  root to: "main#index"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

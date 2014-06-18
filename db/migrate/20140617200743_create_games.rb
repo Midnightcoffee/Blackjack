@@ -4,8 +4,7 @@ class CreateGames < ActiveRecord::Migration
       t.integer :player_id
       t.integer :player_bet
       t.string :player_hand
-      t.string :dealer_hand
-      t.string :deck_sleeve
+      t.text :deck_sleeve
 
       t.timestamps
     end

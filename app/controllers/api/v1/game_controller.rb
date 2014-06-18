@@ -3,14 +3,31 @@ module Api
     class GameController < ApplicationController 
 
       def index
-        render json: {'player_hand' => "Spade,10|Spade,Ace"}, status:200
+        # TODO: current mock data
+        render json: {'level' => 'Beginner'}, status:200
       end
 
       def create
-        #TODO check to see if they can join
-        #FIXME should this be a post?
-        redirect_to "/game"
+        # TODO: if bet within limits and they have enough chips
+        # @game = get bet from player
+        # @game.start
+        # can you play
+        #
+        render json: {}, status: 200 
+        
       end
+
+      def get_incoming_request
+        can you play
+        if so 
+          something
+        else
+        end
+
+
+      end
+
+
 
     end
   end
