@@ -2,8 +2,10 @@ Given /^a user visits the lobby$/ do
   visit '/'
 end
 
-Then /^they should see an option to create a beginner game$/ do
+Then /^they should see an options to join a game.$/ do
   expect(page).to have_text("Beginner")
+  expect(page).to have_text("Intermediate")
+  expect(page).to have_text("High Roller")
 end
 
 And /^a player stats widget.$/ do
@@ -12,7 +14,8 @@ And /^a player stats widget.$/ do
 end
 
 And /^that player stats widget shows his total chip count.$/ do 
-  player = Player.first 
+  #TODO better way to stub this
+  player = Player.find(1)
   player.total_chips = 0
   expect(page).to have_text(player.total_chips)
   expect(page).to have_text(0)

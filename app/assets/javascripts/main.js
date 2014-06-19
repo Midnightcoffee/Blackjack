@@ -6,8 +6,7 @@ Blackjack = angular.module("Blackjack", ["ngRoute", "ngResource"]);
 Blackjack.config(function ($routeProvider){
 
   $routeProvider.when("/", {
-            templateUrl: "assets/main/lobby.html",
-            controller: "LobbyCtrl"
+            templateUrl: "assets/main/lobby.html"
   });
 
   $routeProvider.when("/game", {
@@ -20,11 +19,23 @@ Blackjack.config(function ($routeProvider){
   });
 });
 
-Blackjack.controller("LobbyCtrl", function($scope, $http, $location){
+Blackjack.controller("TotalChipsCtrl", function($scope, $http){
+
+  // FIXME hard coded player id
+  $http.get("/api/v1/total_chips/1").success(function (data) {
+    $scope.player = data;
+  });
+});
+
+
+
+
+Blackjack.controller("LevelCtrl", function($scope, $http, $location){
   $scope.master = {};
 
-  $http.get("/api/v1/lobby").success(function (data) {
-    $scope.lobby = data;
+  $http.get("/api/v1/game_levels").success(function (data) {
+    $scope.levels = data["game_levels"];
+    console.log($scope.levels);
   });
 
   $scope.play = function(level) {
@@ -32,7 +43,7 @@ Blackjack.controller("LobbyCtrl", function($scope, $http, $location){
     $scope.levelChoosen = angular.copy(level);
     data = {level: $scope.levelChoosen}
 
-    $http.post("/api/v1/lobby", data)
+    $http.post("/api/v1/game_authorizer", data)
       .success(function () {
         $location.path('/game') 
       })
@@ -42,6 +53,8 @@ Blackjack.controller("LobbyCtrl", function($scope, $http, $location){
       });
    };
 });
+
+
 // FIXME: bet vs amount
 Blackjack.controller("GameCtrl", function($scope, $http){
 

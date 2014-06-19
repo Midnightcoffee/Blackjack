@@ -1,7 +1,7 @@
 //= require application
 //= require angular-mocks
-
-describe("LobbyCtrl", function(){
+//
+describe("LevelCtrl", function(){
     var mockScope = {};
     var controller;
     var backend;
@@ -10,12 +10,13 @@ describe("LobbyCtrl", function(){
 
     beforeEach(angular.mock.inject(function ($httpBackend) {
       backend = $httpBackend;
-      backend.expect("GET", "/api/v1/lobby").respond({"level": "Beginner", "total_chips": 100});
+      backend.expect("GET", "/api/v1/game_levels")
+        .respond({"game_levels": ['Beginner', 'Intermediate', 'High Roller']});
     }));
 
     beforeEach(angular.mock.inject(function($controller, $rootScope, $http) {
         mockScope = $rootScope.$new();
-        controller = $controller("LobbyCtrl", {
+        controller = $controller("LevelCtrl", {
             $scope: mockScope,
             $http: $http
         });
@@ -27,18 +28,13 @@ describe("LobbyCtrl", function(){
         expect(mockScope).to.exist;
     });
 
-    it("lobby exists", function (){
-        expect(mockScope.lobby).to.exist;
+    it("levels exists", function (){
+        expect(mockScope.levels).to.exist;
     });
 
-    it("level is Beginner", function (){
-        expect(mockScope.lobby['level']).to.equal('Beginner');
-    });
-
-    it("total_chips is 100", function (){
-        expect(mockScope.lobby['total_chips']).to.equal(100);
+    it("has at least one right level", function (){
+        expect(mockScope.levels[0]).to
+          .equal('Beginner');
     });
 
 });
-        
-
