@@ -1,18 +1,27 @@
 require 'rails_helper'
 
-describe "Lobby Api" do
+#FIXME: how should I include business logic in rpsec tests?
+describe "Game Api" do
   FactoryGirl.create(:game)
 
-  describe "Get /game" do
+  describe "Put /game/1" do
 
-    it "sends game state information" do
+    describe "if making a bet" do
 
-      get '/api/v1/game'
+      describe "successful bet" do
 
-      expect(response).to be_success
-      json = JSON.parse(response.body)
-      expect(json['player_hand']).to be_truthy
-      #TODO logic for bet might be better off somewhere else
+        it "responds with current bet amount" do
+
+          get '/api/v1/game'
+          
+          # TODO: mock stub Game with an amount
+
+          expect(response).to be_success
+          json = JSON.parse(response.body)
+          #TODO: test game amount
+
+        end
+      end
     end
   end
 end

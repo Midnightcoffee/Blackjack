@@ -1,4 +1,4 @@
-Feature: Exploring the lobby
+Feature: Visit Lobby
 
   Scenario: Successful visit
     Given a user visits the lobby

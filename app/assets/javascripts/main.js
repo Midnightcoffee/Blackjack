@@ -55,8 +55,14 @@ Blackjack.controller("GameCtrl", function($scope, $http){
 
     data = {bet: $scope.amount}
     // FIXME: if game exists it should be a PUT..
-    $http.post("/api/v1/game", data)
+    // FIXME: hard coded game, only one game currently
+    $http.put("/api/v1/game/1", data)
       .success(function () {
+
+        //API/v1/bet return 
+        //resource bet
+        // REST is not crud
+        // very clear from rake routes.
 
         $http.get("/api/v1/game").success(function (data) {
           $scope.game = data;

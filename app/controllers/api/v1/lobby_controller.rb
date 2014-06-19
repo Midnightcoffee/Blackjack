@@ -2,6 +2,9 @@ module Api
   module V1
     class LobbyController < ApplicationController 
 
+      #TODO: what i want to do i verify if they can play the game
+
+
       def index
         @player = Player.first
         render json: {
