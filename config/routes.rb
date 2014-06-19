@@ -3,6 +3,7 @@ Blackjack::Application.routes.draw do
     namespace :v1 do
       resources :total_chips, only: [:show]
       resources :game_levels, only: [:index]
+      resources :choose_game_levels, only: [:update]
       resources :game, only: [:index, :update]
     end
   end

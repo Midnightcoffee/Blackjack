@@ -27,15 +27,11 @@ Blackjack.controller("TotalChipsCtrl", function($scope, $http){
   });
 });
 
-
-
-
 Blackjack.controller("LevelCtrl", function($scope, $http, $location){
   $scope.master = {};
 
   $http.get("/api/v1/game_levels").success(function (data) {
     $scope.levels = data["game_levels"];
-    console.log($scope.levels);
   });
 
   $scope.play = function(level) {
@@ -43,7 +39,8 @@ Blackjack.controller("LevelCtrl", function($scope, $http, $location){
     $scope.levelChoosen = angular.copy(level);
     data = {level: $scope.levelChoosen}
 
-    $http.post("/api/v1/game_authorizer", data)
+    //  
+    $http.post("/api/v1/choose_game_level/1", data)
       .success(function () {
         $location.path('/game') 
       })

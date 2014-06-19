@@ -1,9 +1,8 @@
 <form ng-controller="LevelCtrl">
-  <ul> 
-    <li ng-repeat="level in levels">
-      <input  type="radio" ng-model="level.selected" 
-        value="{{ level }}" />{{ level }}
-    </li>
-  <ul>
+    <div ng-repeat="level in levels">
+      <label>
+        <input type="radio" ng-model="level.selected" value="{{ level }}" />{{ level }}
+      </label>
+    </div>
   <button ng-click="play(level.selected)">PLAY</button>
 </form>

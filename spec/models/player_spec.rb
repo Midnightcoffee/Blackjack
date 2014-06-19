@@ -11,4 +11,11 @@ describe Player do
 
   it { should respond_to(:total_chips) }
 
+  it "should be the only one allowed" do
+    #TODO does this actual work?
+    Player.create()
+    expect(Player.count).to eql(1)
+    
+  end
+
 end
