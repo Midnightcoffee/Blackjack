@@ -1,7 +1,7 @@
 Blackjack::Application.routes.draw do
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
-      resources :lobby, only: [:index, :create]
+      resources :total_chips, only: [:show]
       resources :game, only: [:index, :update]
     end
   end
