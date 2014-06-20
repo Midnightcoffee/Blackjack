@@ -13,11 +13,4 @@ describe Game do
   it { should respond_to(:dealer_hand) }
   it { should respond_to(:deck_sleeve) }
 
- 
-  it "should be the only one allowed" do
-    #TODO does this actual work?
-    Game.create()
-    expect(Game.count).to eql(1)
-    
-  end
 end
