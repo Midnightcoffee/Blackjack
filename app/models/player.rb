@@ -1,11 +1,12 @@
 class Player < ActiveRecord::Base
-  has_one :game
-  before_save :only_one_allowed
+  attr_readonly :id
+  has_many :games
+  validates :total_chips, presence: true
+  before_save :reset_chips_to_100
 
-  #FIXME: duplicate code with player
-  def only_one_allowed
-    if Player.count != 0
-      return false
-    end
+  def reset_chips_to_100
+    if self.total_chips  == 0
+      self.total_chips = 100
+    end 
   end
 end

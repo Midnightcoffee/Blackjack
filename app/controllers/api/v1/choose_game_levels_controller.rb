@@ -8,6 +8,7 @@ module Api
         levels = ['Beginner', 'Intermediate', 'High Roller']
 
         level_picked = params[:level]
+        puts level_picked
         if level_picked.in? levels
           @game.level = level_picked
           @game.save!
@@ -15,6 +16,7 @@ module Api
           #FIXME: should just be a status code
           render json: {}, status: 200
         else
+          #TODO why did I get here?
           render json: {}, status: 404
         end
       end

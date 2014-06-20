@@ -3,7 +3,7 @@ module Api
     class TotalChipsController < ApplicationController 
 
       def show
-        @player = Player.find(1)
+        @player = Player.first
         render json: {'total_chips' => @player.total_chips}, status: 200
       end
     end

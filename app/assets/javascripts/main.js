@@ -38,9 +38,11 @@ Blackjack.controller("LevelCtrl", function($scope, $http, $location){
 
     $scope.levelChoosen = angular.copy(level);
     data = {level: $scope.levelChoosen}
+    console.log("DATA -----");
+    console.log(data);
 
-    //  
-    $http.post("/api/v1/choose_game_level/1", data)
+    // FIXME hard coded game level 
+    $http.put("/api/v1/choose_game_levels/1", data)
       .success(function () {
         $location.path('/game') 
       })
