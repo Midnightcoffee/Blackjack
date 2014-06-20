@@ -1,6 +1,10 @@
-<form ng-controller="LobbyCtrl">
-    <div ng-repeat="level in levels">
+<form >
+  <!-- TODO: better way to nest this? -->
+  <div ng-controller="LevelCtrl">
+    <div  ng-repeat="level in levels" >
       <input type="radio" ng-model="choose.level" ng-value="level" id="{{ level }}"/>{{ level }}
     </div>
-  <button ng-click="play(choose.level)">PLAY</button>
+    <button ng-controller="PlayCtrl" ng-click="play(choose.level)">PLAY</button>
+  </div> 
+
 </form>

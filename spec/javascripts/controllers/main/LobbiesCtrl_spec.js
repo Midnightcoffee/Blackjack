@@ -38,20 +38,4 @@ describe("LobbyCtrl", function(){
         expect(mockScope.levels[0]).to
           .equal('Beginner');
     });
-
-    //TODO test that it redirects
-    it("responds to 'play' by changing location", function(){
-      //FIXME: hard-coded
-      mockScope.play("Beginner");
-      console.log('hi');
-      expect(location.path()).to.equal('/game');
-    });
-
-    //TODO test that it posts data
-
-
-
-
-    
-    
 });

@@ -1,16 +1,14 @@
 require 'rails_helper'
 
-describe "TotalChips Api" do
+describe "Players Api" do
 
 
-  describe "Get /total_chips" do
+  describe "Get /players/#" do
 
-
-    it "sends players chip stack" do
-      #TODO: how to move this to a higher scope
+    it "sends chip stack" do
       @player = FactoryGirl.create(:player)
 
-      get "/api/v1/total_chips/#{@player.id}"
+      get "/api/v1/players/#{@player.id}"
 
       expect(response).to be_success
       json = JSON.parse(response.body)

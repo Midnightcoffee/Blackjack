@@ -27,13 +27,44 @@ Blackjack.controller("TotalChipsCtrl", function($scope, $http){
   });
 });
 
-Blackjack.controller("LobbyCtrl", function($scope, $http, $location){
+Blackjack.controller("LevelCtrl", function($scope, $http, $location){
+
   $scope.choose = { level: 'Beginner' };
   $scope.master = {};
 
   $http.get("/api/v1/game_levels").success(function (data) {
     $scope.levels = data["game_levels"];
   });
+
+});
+
+
+// FIXME: bet vs amount
+Blackjack.controller("GameCtrl", function($scope, $http, $location, $routeParams){
+
+  $scope.gameId = $routeParams.gameId;
+  // $http.put("/api/v1/games/1").success(function (data) {
+  //   $scope.game = data;
+  // });
+
+  $scope.amount = 0;
+  $scope.bet = function(){
+
+    data = {bet: $scope.amount}
+    // FIXME: hard coded game, only one game currently
+    // TODO: his should be game/1/bet
+    $http.put("/api/v1/game/1/bet", data)
+      .success(function () {
+
+        $http.get("/api/v1/game").success(function (data) {
+          $scope.game = data;
+        });
+
+      })
+  };
+});
+
+Blackjack.controller("PlayCtrl", function($scope, $http, $location){
 
   $scope.play = function(level) {
 
@@ -53,32 +84,4 @@ Blackjack.controller("LobbyCtrl", function($scope, $http, $location){
       });
    };
 });
-
-
-// FIXME: bet vs amount
-Blackjack.controller("GameCtrl", function($scope, $http, $location){
-
-  $scope.gameId = $routePrams.gameId;
-  // $http.put("/api/v1/games/1").success(function (data) {
-  //   $scope.game = data;
-  // });
-
-  $scope.amount = 0;
-  $scope.bet = function(){
-
-    data = {bet: $scope.amount}
-    // FIXME: hard coded game, only one game currently
-    // TODO: his should be game/1/bet
-    $http.put("/api/v1/game/1/bet", data)
-      .success(function () {
-
-        $http.get("/api/v1/game").success(function (data) {
-          $scope.game = data;
-        });
-
-      })
-    
-  };
-});
-
 
