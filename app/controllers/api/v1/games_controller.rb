@@ -2,38 +2,56 @@ module Api
   module V1
     class GamesController < ApplicationController 
 
-      def create
+      #TODO: refactor loading parent into private method
 
-        #FIXME: better way to check?
-        levels = ['Beginner','Intermediate', 'High Roller']
-        if params['level'].in? levels
-          #FIXME better way to update
-          @game = Game.create(level: params['level'])
-          render json: {'game_id' => @game.id}, status:200
-        else
-          render json: {'error_message' => 'not acceptable level'}, status:404
-        end
+      def index
+        player = Player.find(params[:player_id])
+        @games = player.games
+        #FIXME add dealer filter
+        render json: @games, status: 200
+          
       end
 
       def show
-        # TODO: current mock data
-        #FIXME: don't always need to send back his amount
-        render json: {'level' => 'FakeBeginner', 'amount' => "#{@game.player_bet}"}, status:200
-        #TODO: how do i have it condition on state of game?
+        game = Game.find(params[:id])
+        render json: game, status: 200
+          
       end
 
-      # BET, HIT, HOLD
-      def update
+      
 
-        @game = Game.first
-        puts "--------------- UPDATE REACHED -------------"
-        @game.player_bet = params[:bet]
-        bet = @game.player_bet
+      # def create
+
+      #   #FIXME: better way to check?
+      #   levels = ['Beginner','Intermediate', 'High Roller']
+      #   if params['level'].in? levels
+      #     #FIXME better way to update
+      #     @game = Game.create(level: params['level'])
+      #     render json: {'game_id' => @game.id}, status:200
+      #   else
+      #     render json: {'error_message' => 'not acceptable level'}, status:404
+      #   end
+      # end
+
+      # def show
+      #   # TODO: current mock data
+      #   #FIXME: don't always need to send back his amount
+      #   render json: {'level' => 'FakeBeginner', 'amount' => "#{@game.player_bet}"}, status:200
+      #   #TODO: how do i have it condition on state of game?
+      # end
+
+      # # BET, HIT, HOLD
+      # def update
+
+      #   @game = Game.first
+      #   puts "--------------- UPDATE REACHED -------------"
+      #   @game.player_bet = params[:bet]
+      #   bet = @game.player_bet
         
-        # assuming everything checks out!
-        @game.save!
-        render json: {"currentBet" => "#{@game.player_bet}"}, status: 200 
-      end
+      #   # assuming everything checks out!
+      #   @game.save!
+      #   render json: {"currentBet" => "#{@game.player_bet}"}, status: 200 
+      # end
     end
   end
 end
