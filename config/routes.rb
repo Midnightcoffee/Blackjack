@@ -3,7 +3,9 @@ Blackjack::Application.routes.draw do
     namespace :v1 do
       resources :game_levels, only: [:index]
       resources :players, only: [:show] do
-        resources :games, only: [:index, :show]
+        resources :games, only: [:index, :show, :create] do
+          resources :hit, only: [:create]
+        end
       end
     end
   end

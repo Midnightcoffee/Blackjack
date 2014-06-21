@@ -3,6 +3,7 @@ module Api
     class GamesController < ApplicationController 
 
       #TODO: refactor loading parent into private method
+      #TODO: params.require(:something).permit(x,y) codeschool 4.1
 
       def index
         player = Player.find(params[:player_id])
@@ -20,18 +21,19 @@ module Api
 
       
 
-      # def create
+      def create
 
-      #   #FIXME: better way to check?
-      #   levels = ['Beginner','Intermediate', 'High Roller']
-      #   if params['level'].in? levels
-      #     #FIXME better way to update
-      #     @game = Game.create(level: params['level'])
-      #     render json: {'game_id' => @game.id}, status:200
-      #   else
-      #     render json: {'error_message' => 'not acceptable level'}, status:404
-      #   end
-      # end
+        #FIXME: better way to check?
+        levels = ['Beginner','Intermediate', 'High Roller']
+        if params['level'].in? levels
+          #FIXME better way to update
+          @game = Game.create(level: params['level'])
+          render json: {'game_id' => @game.id}, status: 201
+        else
+          render json: {'error' => "Not acceptable level - #{params['level']}"}, 
+            status: 422
+        end
+      end
 
       # def show
       #   # TODO: current mock data

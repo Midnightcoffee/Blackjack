@@ -7,10 +7,6 @@ describe "Game Api" do
     @game = FactoryGirl.create(:game, :player_id => @player.id, :level => "Beginner")  
   end
 
-
-
-  #TODO: how to do this?
-
   #Show
   describe "Get player/#/games/#" do
 
@@ -20,11 +16,10 @@ describe "Game Api" do
       expect(response).to be_success
       json = JSON.parse(response.body)
       expect(json['level']).to eql("Beginner")
-
     end
   end
 
-    #
+  #Index
   describe "Get player/1/games/" do
 
     it "responds with game level" do
@@ -33,21 +28,41 @@ describe "Game Api" do
       expect(response).to be_success
       json = JSON.parse(response.body)
       expect(json.count).to eql(@player.games.count)
-
     end
   end
-    # describe "if making a bet" do
+  
+  #Create
+  describe "Successful create" do
 
-    #   describe "successful bet" do
+    it "responds with game level" do
+      count = Game.count
 
-    #     it "responds with current bet amount" do
+      params = { "level" => "High Roller"}.to_json
+      post "/api/v1/players/#{@player.id}/games/", params, 
+        { 'ACCEPT' => Mime::JSON, 'Content-type' => Mime::JSON.to_s }
+      expect(response).to be_success
+      expect(response.status).to eql(201)
+      expect(response.content_type).to eql(Mime::JSON)
 
+      json = JSON.parse(response.body)
+      expect(Game.count).to eql(count + 1)
+      game = Game.find(json["game_id"])
+      expect(game.level) == "High Roller"
+    end
+  end
 
-    #     get "/api/v1/players/#{@player.id}/games/#{@game.id}/bet"
-          
-    #       expect(response).to be_success
-    #       json = JSON.parse(response.body)
-    #     end
-    #   end
-    # end
+  describe "Un-Successful create" do
+
+    it "does not create Games with invalid levels" do
+
+      params = { "level" => "HACKS!"}.to_json
+      post "/api/v1/players/#{@player.id}/games/", params, 
+        { 'ACCEPT' => Mime::JSON, 'Content-type' => Mime::JSON.to_s }
+
+        expect(response.status).to eql(422)
+      expect(response.content_type).to eql(Mime::JSON)
+      json = JSON.parse(response.body)
+      expect(json['error']).to eql("Not acceptable level - HACKS!")
+    end
+  end
 end
