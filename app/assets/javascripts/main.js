@@ -36,7 +36,7 @@ Blackjack.controller("LobbyCtrl", function($scope, $http, $location){
   $scope.choose = { level: 'Beginner' };
   $scope.master = {};
 
-  $http.get("/api/v1/players/1/games").success(function (data) {
+  $http.get("/api/v1/games/levels").success(function (data) {
     $scope.games = data;
   });
 

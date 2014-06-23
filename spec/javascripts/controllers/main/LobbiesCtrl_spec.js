@@ -35,7 +35,7 @@ describe("LobbyCtrl", function(){
 
     //FIXME: test all of them
     it("has Beginner level", function (){
-        expect(mockScope.levels[0]).to
+        expect(mockScope.games[0]).to
           .equal('Beginner');
     });
 });
