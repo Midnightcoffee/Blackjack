@@ -8,7 +8,7 @@ module Api
       def index
         player = Player.find(params[:player_id])
         @games = player.games
-        #FIXME add dealer filter and other filters!
+        #FIXME add dealer filter is there an "except"?
         render json: @games, only: 
           [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
           status: 200 
@@ -37,10 +37,11 @@ module Api
       #   #internal server error is a 500 error
       # end
       
-      # levels exists when their are more then three games possible
-      # def levels
-      #   render json: @games.all, :only => ["id", "level"], status: 200
-      # end
+      # levels is able to give the id only because there are only 3 games
+      def levels
+        @games = Game.all
+        render json: @games.all, :only => ["id", "level"], status: 200
+      end
 
       # def show
       #   # TODO: current mock data

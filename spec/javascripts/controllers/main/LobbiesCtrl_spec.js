@@ -7,19 +7,15 @@ describe("LobbyCtrl", function(){
     var backend;
 
     beforeEach(angular.mock.module("Blackjack"));
-    // TODO: Some sort of factory
-    var games = [
-      {"id":1,"player_id":1,"level":"Beginner","player_bet":1,"player_hand":"MyString","dealer_hand":"MyString"},
-      {"id":2,"player_id":1,"level":"Intermediate","player_bet":1,"player_hand":"MyString","dealer_hand":"MyString"},
-      {"id":3,"player_id":1,"level":"High Roller","player_bet":1,"player_hand":"MyString","dealer_hand":"MyString"}];    
+    // TODO: Some sort of factory possible revert back to game_level
+    var levels = ['Beginner', 'Intermediate', 'High Roller'];
     beforeEach(angular.mock.inject(function ($httpBackend) {
       backend = $httpBackend;
-      backend.expect("GET", "/api/v1/players/1/games")
-        .respond(games);
+      backend.expect("GET", "/api/v1/games/levels")
+        .respond(levels);
     }));
 
-    beforeEach(angular.mock.inject(function($controller, $rootScope, $http, $location) {
-        location = $location;
+    beforeEach(angular.mock.inject(function($controller, $rootScope, $http) {
         mockScope = $rootScope.$new();
         controller = $controller("LobbyCtrl", {
             $scope: mockScope,
@@ -39,7 +35,7 @@ describe("LobbyCtrl", function(){
 
     //FIXME: test all of them
     it("has Beginner level", function (){
-        expect(mockScope.games[0]['level']).to
+        expect(mockScope.levels[0]).to
           .equal('Beginner');
     });
 });

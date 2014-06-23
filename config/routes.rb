@@ -1,7 +1,6 @@
 Blackjack::Application.routes.draw do
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
-      resources :game_levels, only: [:index]
       resources :players, only: [:show] do
         resources :games, only: [:index, :show, :create] do
           member do
@@ -9,7 +8,8 @@ Blackjack::Application.routes.draw do
           end
         end
       end
-      resources :games do
+      #TODO: think about what you want to expose here?
+      resources :games, only: [] do
         collection do
           get 'levels'
         end
