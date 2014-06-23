@@ -7,9 +7,9 @@ Given /^they visit the lobby$/ do
 end
 
 Then /^they should see an options to join a game.$/ do
-  expect(page).to have_text("Beginner")
-  expect(page).to have_text("Intermediate")
-  expect(page).to have_text("High Roller")
+  expect(page).to have_link("Beginner")
+  expect(page).to have_link("Intermediate")
+  expect(page).to have_link("High Roller")
 end
 
 And /^a player stats widget.$/ do

@@ -13,4 +13,6 @@ describe Game do
   it { should respond_to(:dealer_hand) }
   it { should respond_to(:deck_sleeve) }
 
+
+
 end

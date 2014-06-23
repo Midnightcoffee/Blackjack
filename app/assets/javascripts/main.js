@@ -6,7 +6,8 @@ Blackjack = angular.module("Blackjack", ["ngRoute", "ngResource"]);
 Blackjack.config(function ($routeProvider){
 
   $routeProvider.when("/", {
-            templateUrl: "assets/main/lobby.html"
+            templateUrl: "assets/main/lobby.html",
+            controller: "LobbyCtrl"
   });
 
   $routeProvider.when("/games/:id", {
@@ -30,15 +31,23 @@ Blackjack.controller("PlayerCtrl", function($scope, $http){
 
 });
 
-Blackjack.controller("LevelCtrl", function($scope, $http, $location){
+Blackjack.controller("LobbyCtrl", function($scope, $http, $location){
 
   $scope.choose = { level: 'Beginner' };
   $scope.master = {};
 
-  $http.get("/api/v1/games/levels").success(function (data) {
-    $scope.levels = data;
+  $http.get("/api/v1/players/1/games").success(function (data) {
+    $scope.games = data;
   });
 
+  $scope.play = function(level) {
+
+    //todo have server send id of game and level
+    $scope.levelChoosen = angular.copy(level);
+    data = {level: $scope.levelChoosen};
+    $location.path('/games/'.concat(game_id));
+
+   };
 });
 
 
@@ -65,26 +74,5 @@ Blackjack.controller("GameCtrl", function($scope, $http, $location, $routeParams
 
       })
   };
-});
-
-Blackjack.controller("PlayCtrl", function($scope, $http, $location){
-
-  $scope.play = function(level) {
-
-    $scope.levelChoosen = angular.copy(level);
-    data = {level: $scope.levelChoosen};
-
-    // FIXME hard coded game level 
-    // TODO better way to transfer and pack json?
-    $http.post("/api/v1/games", data)
-      .success(function (data) {
-        game_id = data["game_id"];
-        $location.path('/games/'.concat(game_id));
-      })
-      .error(function() {
-        //TODO: Anything useful here?
-        console.log('ERROR');
-      });
-   };
 });
 

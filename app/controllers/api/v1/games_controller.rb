@@ -8,38 +8,39 @@ module Api
       def index
         player = Player.find(params[:player_id])
         @games = player.games
-        #FIXME add dealer filter
-        render json: @games, status: 200
-          
+        #FIXME add dealer filter and other filters!
+        render json: @games, only: 
+          [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
+          status: 200 
       end
 
       def show
         game = Game.find(params[:id])
         render json: game, status: 200
-          
       end
 
       
 
-      def create
+      # def create
 
-        #FIXME: better way to check?
-        levels = ['Beginner','Intermediate', 'High Roller']
-        if params['level'].in? levels
-          #FIXME better way to update
-          @game = Game.create(level: params['level'])
-          render json: {'game_id' => @game.id}, status: 201
-        else
-          #FIXME game.errors
-          render json: {'error' => "Not acceptable level - #{params['level']}"}, 
-            status: 422
-        end
-        #internal server error is a 500 error
-      end
-
-      def levels
-        render json: ['Beginner', 'Intermediate', 'High Roller'], status: 200
-      end
+      #   #FIXME: better way to check?
+      #   levels = ['Beginner','Intermediate', 'High Roller']
+      #   if params['level'].in? levels
+      #     #FIXME better way to update
+      #     @game = Game.create(level: params['level'])
+      #     render json: {'game_id' => @game.id}, status: 201
+      #   else
+      #     #FIXME game.errors
+      #     render json: {'error' => "Not acceptable level - #{params['level']}"}, 
+      #       status: 422
+      #   end
+      #   #internal server error is a 500 error
+      # end
+      
+      # levels exists when their are more then three games possible
+      # def levels
+      #   render json: @games.all, :only => ["id", "level"], status: 200
+      # end
 
       # def show
       #   # TODO: current mock data
