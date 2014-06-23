@@ -19,12 +19,15 @@ Blackjack.config(function ($routeProvider){
   });
 });
 
-Blackjack.controller("TotalChipsCtrl", function($scope, $http){
+Blackjack.controller("PlayerCtrl", function($scope, $http){
 
   // FIXME hard coded player id
-  $http.get("/api/v1/total_chips/1").success(function (data) {
+  // FIXME player on scope 
+  $http.get("/api/v1/players/1").success(function (data) {
+    //TODO is this an example of reading, which is discouraged?
     $scope.player = data;
-  });
+  }); 
+
 });
 
 Blackjack.controller("LevelCtrl", function($scope, $http, $location){
@@ -32,8 +35,8 @@ Blackjack.controller("LevelCtrl", function($scope, $http, $location){
   $scope.choose = { level: 'Beginner' };
   $scope.master = {};
 
-  $http.get("/api/v1/game_levels").success(function (data) {
-    $scope.levels = data["game_levels"];
+  $http.get("/api/v1/games/levels").success(function (data) {
+    $scope.levels = data;
   });
 
 });

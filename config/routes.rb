@@ -4,7 +4,14 @@ Blackjack::Application.routes.draw do
       resources :game_levels, only: [:index]
       resources :players, only: [:show] do
         resources :games, only: [:index, :show, :create] do
-          resources :hit, only: [:create]
+          member do
+            put 'bet'
+          end
+        end
+      end
+      resources :games do
+        collection do
+          get 'levels'
         end
       end
     end

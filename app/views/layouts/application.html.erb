@@ -5,7 +5,11 @@
   <%= stylesheet_link_tag    "application", media: "all"  %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
-  <h1 ng-controller="TotalChipsCtrl"> Total Chips: {{player.total_chips}}</h1>
+  <div ng-controller="PlayerCtrl"> 
+    <p>Total Chips: {{player.total_chips}}</p>
+  </div>
+
+
 </head>
 <body>
 

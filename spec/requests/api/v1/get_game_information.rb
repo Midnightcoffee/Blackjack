@@ -39,7 +39,7 @@ describe "Game Api" do
 
       params = { "level" => "High Roller"}.to_json
       post "/api/v1/players/#{@player.id}/games/", params, 
-        { 'ACCEPT' => Mime::JSON, 'Content-type' => Mime::JSON.to_s }
+        { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
       expect(response).to be_success
       expect(response.status).to eql(201)
       expect(response.content_type).to eql(Mime::JSON)
@@ -57,7 +57,7 @@ describe "Game Api" do
 
       params = { "level" => "HACKS!"}.to_json
       post "/api/v1/players/#{@player.id}/games/", params, 
-        { 'ACCEPT' => Mime::JSON, 'Content-type' => Mime::JSON.to_s }
+        { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
 
         expect(response.status).to eql(422)
       expect(response.content_type).to eql(Mime::JSON)

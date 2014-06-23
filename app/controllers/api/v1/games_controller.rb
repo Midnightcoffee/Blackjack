@@ -30,9 +30,15 @@ module Api
           @game = Game.create(level: params['level'])
           render json: {'game_id' => @game.id}, status: 201
         else
+          #FIXME game.errors
           render json: {'error' => "Not acceptable level - #{params['level']}"}, 
             status: 422
         end
+        #internal server error is a 500 error
+      end
+
+      def levels
+        render json: ['Beginner', 'Intermediate', 'High Roller'], status: 200
       end
 
       # def show

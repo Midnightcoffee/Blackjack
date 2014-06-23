@@ -1,4 +1,4 @@
-Feature: Joining a Game
+Feature: Join Game
 
 
   Scenario: Successful join
