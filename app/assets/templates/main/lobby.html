@@ -1,8 +1,4 @@
-<form >
-  <div ng-controller="LobbyCtrl">
-    <div  ng-repeat="game in games" >
-      <input type="radio" ng-model="choose.level" ng-value="level" id="{{ game.id }}"/>{{ game.level }}
-    </div>
-    <button ng-click="play(choose.level)">PLAY</button>
-  </div> 
-</form>
+<div ng-repeat="game in games" class="app-game-level-links">
+  <a href="/#games/{{game.id}}" >{{game.level}}</a>
+</div>
+<p></p>

@@ -1,6 +1,5 @@
 When /^they click "Beginner"$/ do
-  expect(false)
-  #FIXME just link if only one game, other wise its a post.
+  find("#app-game-level-Beginner").click
 end
 
 Then /^they should be put into the game room.$/ do

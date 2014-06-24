@@ -7,12 +7,22 @@ Blackjack.config(function ($routeProvider){
 
   $routeProvider.when("/", {
             templateUrl: "assets/main/lobby.html",
-            controller: "LobbyCtrl"
+            controller: "LobbyCtrl",
+            resolve: {
+              load: function ($route, playerFactory) {
+                return playerFactory.getPlayerState($route.current.params.id);
+              }
+            }
   });
 
   $routeProvider.when("/games/:id", {
             templateUrl: "assets/main/game.html",
-            controller: "GameCtrl"
+            controller: "GameCtrl",
+            resolve: {
+              load: function ($route, gameFactory) {
+                return gameFactory.getGameState($route.current.params.id);
+              }
+            }
   });
 
   $routeProvider.otherwise({
@@ -31,48 +41,77 @@ Blackjack.controller("PlayerCtrl", function($scope, $http){
 
 });
 
-Blackjack.controller("LobbyCtrl", function($scope, $http, $location){
 
-  $scope.choose = { level: 'Beginner' };
-  $scope.master = {};
 
-  $http.get("/api/v1/games/levels").success(function (data) {
-    $scope.games = data;
-  });
-
-  $scope.play = function(level) {
-
-    //todo have server send id of game and level
-    $scope.levelChoosen = angular.copy(level);
-    data = {level: $scope.levelChoosen};
-    $location.path('/games/'.concat(game_id));
-
-   };
-});
+//TODO Does this need to exist now?
+Blackjack.controller("LobbyCtrl", function($scope, $http, $location){});
 
 
 // FIXME: bet vs amount
-Blackjack.controller("GameCtrl", function($scope, $http, $location, $routeParams){
+Blackjack.controller("GameCtrl", function($scope, $http, $location, $routeParams, gameFactory){
 
   $scope.gameId = $routeParams.gameId;
-  // $http.put("/api/v1/games/1").success(function (data) {
+  
+
+
+  //hard coded player id
+  // $http.get("/api/v1/players/1/games/1").success(function (data) {
   //   $scope.game = data;
   // });
 
+  $scope.gameState = get
+
   $scope.amount = 0;
   $scope.bet = function(){
-
     data = {bet: $scope.amount}
-    // FIXME: hard coded game, only one game currently
-    // TODO: his should be game/1/bet
-    $http.put("/api/v1/game/1/bet", data)
+    // FIXME: hard coded player id, only one game currently
+    $http.put("/api/v1/players/1/games/1/bet", data)
       .success(function () {
+        // hand code game id
 
-        $http.get("/api/v1/game").success(function (data) {
+        $http.get("/api/v1/players/1/games/1").success(function (data) {
           $scope.game = data;
         });
 
       })
   };
 });
+
+Blackjack.factory("gameFactory", function($http, $q) {
+
+  return {
+
+    data : {},
+    getGameState : function(id){
+      var urlBase = "/api/v1/players/1/games/";
+      var defer = $q.defer();
+      var data = this.data;
+      $http.get(urlBase.concat(id)).success(function (data) {
+        defer.resolve(data);
+      });
+      //TODO: on failure?
+      return defer.promise;
+    }
+  };
+});
+
+Blackjack.factory("playerFactory", function($http, $q) {
+
+  return {
+    data: {},
+    getPlayerState : function(id){
+      //FIXME shared logic between other controllers.
+      var urlBase = "/api/v1/players/";
+      var defer = $q.defer();
+      var data = this.data;
+      $http.get(urlBase.concat(id)).success(function (data) {
+        defer.resolve(data);
+      });
+      //TODO: on failure?
+      return defer.promise;
+    }
+  };
+
+});
+  
 
