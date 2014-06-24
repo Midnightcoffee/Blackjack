@@ -30,13 +30,8 @@ Blackjack.config(function ($routeProvider){
   });
 });
 
-Blackjack.controller("PlayerCtrl", function($scope, $http, playerFactory){
-
-
-  // FIXME hard coded player id
-  // FIXME player on scope 
-  $scope.player = playerFactory.data;
-
+Blackjack.controller("PlayerCtrl", function($scope, $http, playersResource){
+  $scope.players = playersResource.get();
 });
 
 
@@ -48,18 +43,10 @@ Blackjack.controller("LobbyCtrl", function($scope, $http, data){
 });
 
 
-// FIXME: bet vs amount
 Blackjack.controller("GameCtrl", function($scope, $http, $location, $routeParams, gameFactory){
 
   $scope.gameId = $routeParams.gameId;
   
-
-
-  //hard coded player id
-  // $http.get("/api/v1/players/1/games/1").success(function (data) {
-  //   $scope.game = data;
-  // });
-
   $scope.gameState = get
 
   $scope.amount = 0;
@@ -98,47 +85,8 @@ Blackjack.factory("gameFactory", function($http, $q) {
 
 Blackjack.factory("levelsResource", function($resource) {
   return $resource("/api/v1/games/levels");
-
 });
-
-
-
-
-// Blackjack.factory("gameLevelsFactory", function($http, $q) {
-
-//   return {
-
-//     data : {},
-//     levels : function(id){
-//       var url = "/api/v1/games/levels";
-//       var defer = $q.defer();
-//       var data = this.data;
-//       $http.get(url).success(function (data) {
-//         defer.resolve(data);
-//       });
-//       //TODO: on failure?
-//       return defer.promise;
-//     }
-//   };
-// });
-
-Blackjack.factory("playerFactory", function($http, $q) {
-
-  return {
-    data: {},
-    getPlayerState : function(id){
-      //FIXME shared logic between other controllers.
-      var urlBase = "/api/v1/players/";
-      var defer = $q.defer();
-      var data = this.data;
-      $http.get(urlBase.concat(id)).success(function (data) {
-        defer.resolve(data);
-      });
-      //TODO: on failure?
-      return defer.promise;
-    }
-  };
-
+Blackjack.factory("playersResource", function($resource) {
+  return $resource("/api/v1/players/1");
 });
-  
 
