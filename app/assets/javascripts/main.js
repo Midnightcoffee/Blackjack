@@ -9,8 +9,8 @@ Blackjack.config(function ($routeProvider){
             templateUrl: "assets/main/lobby.html",
             controller: "LobbyCtrl",
             resolve: {
-              load: function ($route, playerFactory) {
-                return playerFactory.getPlayerState($route.current.params.id);
+                data: function (levelsResource) {
+                  return levelsResource.query();
               }
             }
   });
@@ -30,21 +30,22 @@ Blackjack.config(function ($routeProvider){
   });
 });
 
-Blackjack.controller("PlayerCtrl", function($scope, $http){
+Blackjack.controller("PlayerCtrl", function($scope, $http, playerFactory){
+
 
   // FIXME hard coded player id
   // FIXME player on scope 
-  $http.get("/api/v1/players/1").success(function (data) {
-    //TODO is this an example of reading, which is discouraged?
-    $scope.player = data;
-  }); 
+  $scope.player = playerFactory.data;
 
 });
 
 
 
-//TODO Does this need to exist now?
-Blackjack.controller("LobbyCtrl", function($scope, $http, $location){});
+//TODO: better nameing convention games vs levels.
+Blackjack.controller("LobbyCtrl", function($scope, $http, data){
+  //extra object "data" allows it to below to multiply controllers
+  $scope.games = data;
+});
 
 
 // FIXME: bet vs amount
@@ -94,6 +95,32 @@ Blackjack.factory("gameFactory", function($http, $q) {
     }
   };
 });
+
+Blackjack.factory("levelsResource", function($resource) {
+  return $resource("/api/v1/games/levels");
+
+});
+
+
+
+
+// Blackjack.factory("gameLevelsFactory", function($http, $q) {
+
+//   return {
+
+//     data : {},
+//     levels : function(id){
+//       var url = "/api/v1/games/levels";
+//       var defer = $q.defer();
+//       var data = this.data;
+//       $http.get(url).success(function (data) {
+//         defer.resolve(data);
+//       });
+//       //TODO: on failure?
+//       return defer.promise;
+//     }
+//   };
+// });
 
 Blackjack.factory("playerFactory", function($http, $q) {
 
