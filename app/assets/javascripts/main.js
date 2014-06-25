@@ -19,14 +19,15 @@ Blackjack.config(function ($routeProvider){
             templateUrl: "assets/main/game.html",
             controller: "GameCtrl",
             resolve: {
-              data: function (gamesResource) {
-                return gamesResource.getCurrentGame();
+              game: function (gamesResource) {
+                return gamesResource.getCurrent();
               }
             }
   });
 
   $routeProvider.otherwise({
     redirectTo: "/"
+    //FIXME do i need to reference the controller and resolve here as well?
   });
 });
 
@@ -39,12 +40,9 @@ Blackjack.controller("LobbyCtrl", function($scope, games){
   $scope.games = games;
 });
 
-Blackjack.controller("GameCtrl", function($scope, $http, $location, $routeParams, 
-                                          data, gamesResource){
-  $scope.gameId = $routeParams.gameId;
+Blackjack.controller("GameCtrl", function($scope, game){
   
-  $scope.game = data;
-  $scope.game
+  $scope.game = game;
 
   $scope.amount = 0;
   //FIXME: the offical docs for ng-submit don't pass data as a argument,
@@ -68,10 +66,6 @@ Blackjack.controller("GameCtrl", function($scope, $http, $location, $routeParams
 
 // --------------- FACTORIES ----------------------------
 //
-Blackjack.factory("levelsResource", function($resource) {
-  return $resource("/api/v1/games/levels");
-});
-
 Blackjack.factory("playersResource", function($resource) {
   //FIXME: hardcoded  player id
   return $resource("/api/v1/players/1");
@@ -79,7 +73,7 @@ Blackjack.factory("playersResource", function($resource) {
 
 Blackjack.factory("gamesResource", function($resource) {
   return {
-    getCurrentGame: function () {
+    getCurrent: function () {
       return $resource("/api/v1/players/1/games/" + ":id").query(); 
     
     },
