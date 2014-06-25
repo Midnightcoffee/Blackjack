@@ -31,7 +31,7 @@ describe "Game Api" do
     end
   end
   
-  #Create
+  #TODO: are we really creating?
   describe "Successful create" do
 
     it "responds with game level" do

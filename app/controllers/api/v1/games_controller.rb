@@ -21,21 +21,6 @@ module Api
 
       
 
-      # def create
-
-      #   #FIXME: better way to check?
-      #   levels = ['Beginner','Intermediate', 'High Roller']
-      #   if params['level'].in? levels
-      #     #FIXME better way to update
-      #     @game = Game.create(level: params['level'])
-      #     render json: {'game_id' => @game.id}, status: 201
-      #   else
-      #     #FIXME game.errors
-      #     render json: {'error' => "Not acceptable level - #{params['level']}"}, 
-      #       status: 422
-      #   end
-      #   #internal server error is a 500 error
-      # end
       
       # levels is able to give the id only because there are only 3 games
       def levels
@@ -43,25 +28,18 @@ module Api
         render json: @games.all, :only => ["id", "level"], status: 200
       end
 
-      # def show
-      #   # TODO: current mock data
-      #   #FIXME: don't always need to send back his amount
-      #   render json: {'level' => 'FakeBeginner', 'amount' => "#{@game.player_bet}"}, status:200
-      #   #TODO: how do i have it condition on state of game?
-      # end
+      # -------------- custom routes --------------------------
+      def bet
+        #TODO refactor out!
+        #TODO get player id to not relevant for now
+        @game = Game.find(params[:game_id])
+        puts params
+        #TODO skips validations
+        @game.update_attribute(:player_bet, params[:bet])
+        @game.save!
+        render json: @game, status: 201
+      end
 
-      # # BET, HIT, HOLD
-      # def update
-
-      #   @game = Game.first
-      #   puts "--------------- UPDATE REACHED -------------"
-      #   @game.player_bet = params[:bet]
-      #   bet = @game.player_bet
-        
-      #   # assuming everything checks out!
-      #   @game.save!
-      #   render json: {"currentBet" => "#{@game.player_bet}"}, status: 200 
-      # end
     end
   end
 end
