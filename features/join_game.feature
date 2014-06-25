@@ -2,7 +2,7 @@ Feature: Join Game
 
 
   Scenario: Successful join
-    Given the player exists
+    Given the player and games exists
       And they visit the lobby
      
     When they click "Beginner"

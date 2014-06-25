@@ -1,7 +1,7 @@
 Feature: Visit Lobby
 
   Scenario: Successful visit
-    Given the player exists
+    Given the player and games exists
       And they visit the lobby
     
     Then they should see an options to join a game.

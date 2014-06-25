@@ -1,7 +1,7 @@
 When /^they click "Beginner"$/ do
-  find("#app-game-level-Beginner").click
+  click_link("Beginner")
 end
 
 Then /^they should be put into the game room.$/ do
-  expect(page).to have_content("Bet")
+  expect(page).to have_content("bet")
 end

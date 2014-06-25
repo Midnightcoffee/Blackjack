@@ -1,5 +1,6 @@
-Given /^the player exists$/ do
+Given /^the player and games exists$/ do
   expect(Player.count).to eql(1)
+  expect(Game.count).to eql(3)
 end
 
 Given /^they visit the lobby$/ do
