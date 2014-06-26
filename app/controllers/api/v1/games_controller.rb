@@ -24,10 +24,11 @@ module Api
       end
 
       
-      # levels is able to give the id only because there are only 3 games
+
       # -------------- custom routes --------------------------
       def levels
         @games = Game.all
+        # levels is able to return the ids only because there are only 3 games
         render json: @games.all, :only => ["id", "level"], status: 200
       end
 

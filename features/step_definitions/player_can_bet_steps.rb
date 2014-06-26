@@ -5,6 +5,8 @@ end
 When(/^they bet$/) do
   fill_in "Bet-Amount", :with => 20
   click_button("Bet")
+  @game = Game.find(1)
+  @game.player_bet = 20
 end
 
 Then(/^their bet should be placed$/) do

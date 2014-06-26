@@ -7,6 +7,7 @@ describe("GameCtrl", function(){
     var controller;
     var backend;
     var hand = "Heart,Ace Heart,10";
+    var dealer_hand = "Spade,Ace Spade,10";
 
 
     beforeEach(angular.mock.module("Blackjack"));
@@ -17,7 +18,7 @@ describe("GameCtrl", function(){
         .respond({player_bet: 20});
 
       backend.expect("GET", "/api/v1/players/1/games/1")
-        .respond({player_bet: 20, player_hand: hand});
+        .respond({player_bet: 20, player_hand: hand, dealer_hand: dealer_hand});
     }));
     
 
@@ -53,7 +54,7 @@ describe("GameCtrl", function(){
       mockScope.amount = 20;
       mockScope.bet();
       backend.flush();
-      expect(mockScope.game['player_hand']).to.exist;
       expect(mockScope.game['player_hand']).to.equal(hand);
+      expect(mockScope.game['dealer_hand']).to.equal(dealer_hand);
     });
 });

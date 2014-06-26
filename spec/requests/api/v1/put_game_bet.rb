@@ -13,24 +13,46 @@ describe "Game Api" do
 
   describe "put player/#/games/#" do
     describe "Successful bet" do
-      it "responds with game state information" do
+      it "responds with success" do
+
+        params = {:game_id => @game.id, :bet => 20, :player_id => @player.id}.to_json
+        put "/api/v1/players/#{@player.id}/games/#{@game.id}/bet", params, 
+          { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
+        expect(response).to be_success
+      end
+
+      it "responds with 201" do
 
         params = {:game_id => @game.id, :bet => 20, :player_id => @player.id}.to_json
         put "/api/v1/players/#{@player.id}/games/#{@game.id}/bet", params, 
           { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
 
-
-        expect(response).to be_success
         expect(response.status).to eql(201)
+      end
+
+      it "responds with json" do
+
+        params = {:game_id => @game.id, :bet => 20, :player_id => @player.id}.to_json
+        put "/api/v1/players/#{@player.id}/games/#{@game.id}/bet", params, 
+          { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
+
         expect(response.content_type).to eql(Mime::JSON)
+      end
 
-        game = JSON.parse(response.body)
-        #TODO serialize
+      it "responds with player_bet" do
 
-        expect(game['player_bet']).to eql(20)
-        expect(@game.player_bet).to eql(20)
+        params = {:game_id => @game.id, :bet => 20, :player_id => @player.id}.to_json
+        put "/api/v1/players/#{@player.id}/games/#{@game.id}/bet", params, 
+          { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
+        expect(game['player_bet']).to eql(@game.player_bet)
+      end
 
+      it "responds with player_hand" do
 
+        params = {:game_id => @game.id, :bet => 20, :player_id => @player.id}.to_json
+        put "/api/v1/players/#{@player.id}/games/#{@game.id}/bet", params, 
+          { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
+        expect(game['player_hand']).to eql(@game.player_hand)
       end
     end
 
@@ -48,8 +70,7 @@ describe "Game Api" do
           game = JSON.parse(response.body)
 
           #TODO serialize
-          expect(game['error']).to eql("Not enough chips")
-          expect(@game.player_bet).to eql(0)
+          expect(game['player_bet']).to eql(@game.player_bet)
         end
 
       end

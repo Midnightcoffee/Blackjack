@@ -9,6 +9,8 @@ require 'database_cleaner/cucumber'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 
+#DatabaseCleaner.strategy = nil
+
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
 # selectors in your step definitions to use the XPath syntax.
@@ -45,13 +47,10 @@ end
 
 Before do
   DatabaseCleaner.clean
-  @player = Player.create(total_chips: 100)
-  ["Beginner", "Intermediate", "High Roller"].each do |level|
-    Game.create(player_id: @player.id, level: level)
-  end
-    
-
+  @player = FactoryGirl.create(:player, total_chips:100)
+  ["Beginner", "Intermediate", "High Roller"].each { |level| FactoryGirl.create(:game, level: level, player_id: @player.id) }
 end
+
 
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
 # See the DatabaseCleaner documentation for details. Example:
@@ -68,8 +67,14 @@ end
 #   end
 #
 
+    
+
+
 # Possible values are :truncation and :transaction
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
+#Cucumber::Rails::World.use_transactional_fixtures = false
+World(FactoryGirl::Syntax::Methods)
+
 
