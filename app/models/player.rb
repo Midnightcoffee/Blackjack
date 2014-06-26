@@ -9,4 +9,18 @@ class Player < ActiveRecord::Base
       self.total_chips = 100
     end 
   end
+
+  #FIXME better way to express this
+  #TODO: game range
+  def bet game, amount
+    if self.total_chips >= amount && Game.legal_bet_range(amount, game.level)
+      game.player_bet = amount
+      game.save!
+    else
+      #FIXME pass along error message
+      false
+    end
+  end
+
+
 end

@@ -31,13 +31,9 @@ module Api
       # -------------- custom routes --------------------------
       def bet
         #TODO refactor out!
-        #TODO get player id to not relevant for now
-        @game = Game.find(params[:game_id])
-        puts params
-        #TODO skips validations
-        @game.update_attribute(:player_bet, params[:bet])
-        @game.save!
-        render json: @game, status: 201
+        @player = Player.find(params[:player_id])
+        @game = @player.games.find(params[:game_id]);
+        @player.bet(@game, params[:bet])
       end
 
     end
