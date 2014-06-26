@@ -43,6 +43,7 @@ Blackjack.controller("LobbyCtrl", function($scope, games){
 Blackjack.controller("GameCtrl", function($scope, $http, game){
   
   $scope.game = game;
+  console.log(game);
 
   $scope.amount = 0;
   //FIXME: the offical docs for ng-submit don't pass data as a argument,
@@ -73,7 +74,7 @@ Blackjack.factory("playersResource", function($resource, $http) {
 Blackjack.factory("gamesResource", function($resource) {
   return {
     getCurrent: function () {
-      return $resource("/api/v1/players/1/games/" + ":id").query(); 
+      return $resource("/api/v1/players/1/games/1").get(); 
     
     },
 

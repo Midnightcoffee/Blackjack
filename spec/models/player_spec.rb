@@ -21,7 +21,13 @@ describe Player do
       @bet = 30
       expect(@player.bet(@game, @bet)).to equal(true)
       expect(@game.player_bet).to equal(@bet)
-      # expect(@game.player_bet).to eql(30)
+    end
+
+    it "should deduct from total_chips" do
+      @bet = 30
+      @before_total_chips = @player.total_chips
+      expect(@player.bet(@game, @bet)).to equal(true)
+      expect(@player.total_chips).to equal(@before_total_chips - @bet)
     end
   end
 

@@ -17,7 +17,9 @@ module Api
 
       def show
         #FIXME is there a more rails way to do a query?
-        @game = Game.where("player_id = ? AND id = ?", params[:player_id], params[:id])
+        # @game = Game.where("player_id = ? AND id = ?", params[:player_id], params[:id])
+        # FIXME how to do query with player? The unexpectedly gave an array
+        @game = Game.find(params[:id])
         render json: @game, status: 200
       end
 

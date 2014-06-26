@@ -14,6 +14,8 @@ class Player < ActiveRecord::Base
   #TODO: game range
   def bet game, amount
     if self.total_chips >= amount && Game.legal_bet_range(amount, game.level)
+      self.total_chips = self.total_chips - amount
+      self.save
       game.player_bet = amount
       game.save!
       true 

@@ -1,5 +1,5 @@
 Given(/^a player joins a game$/) do
-  visit '/#games/1'
+  visit '/#/games/1'
 end
 
 When(/^they bet$/) do
