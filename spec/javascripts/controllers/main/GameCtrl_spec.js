@@ -13,11 +13,11 @@ describe("GameCtrl", function(){
 
     beforeEach(angular.mock.inject(function ($httpBackend) {
       backend = $httpBackend;
-      backend.expect("PUT", "/api/v1/players/1/games/1/bet", {bet: 20})
-        .respond({bet: 20});
+      backend.expect("PUT", "/api/v1/players/1/games/1/bet", {player_bet: 20})
+        .respond({player_bet: 20});
 
       backend.expect("GET", "/api/v1/players/1/games/1")
-        .respond({bet: 20, player_hand: hand});
+        .respond({player_bet: 20, player_hand: hand});
     }));
     
 
@@ -49,7 +49,7 @@ describe("GameCtrl", function(){
     });
 
     //FIXME: how to describe test. break into two multiply tests
-    it("a bet sends a PUT request and ", function() {
+    it("a bet sends a PUT request ", function() {
       mockScope.amount = 20;
       mockScope.bet();
       backend.flush();

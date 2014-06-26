@@ -1,7 +1,8 @@
 {{ game.level }}
 
 <form ng-submit="bet()">
-    <input type="number" ng-model="amount" min="10" max="50" id="bet">
+    <!-- send min and max as well for better UX-->
+    <input type="number" ng-model="amount" id="Bet-Amount">
     <input type="submit" value="Bet">
 </form>
 

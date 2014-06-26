@@ -16,11 +16,13 @@ class Player < ActiveRecord::Base
     if self.total_chips >= amount && Game.legal_bet_range(amount, game.level)
       game.player_bet = amount
       game.save!
+      true 
     else
-      #FIXME pass along error message
       false
     end
   end
+    #TODO something otherwise error message?
+
 
 
 end

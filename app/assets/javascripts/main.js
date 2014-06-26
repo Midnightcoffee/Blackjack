@@ -48,7 +48,8 @@ Blackjack.controller("GameCtrl", function($scope, $http, game){
   //FIXME: the offical docs for ng-submit don't pass data as a argument,
   //is this just an oversight? Why is it better to pass them as values.
   $scope.bet = function(){
-    data = {bet: $scope.amount};
+    //FIXME hard coded
+    data = {player_bet: $scope.amount};
     //FIXME: hard coded player id, only one game currently
     $http.put("/api/v1/players/1/games/1/bet", data)
       .success(function () {

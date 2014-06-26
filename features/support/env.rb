@@ -47,7 +47,7 @@ Before do
   DatabaseCleaner.clean
   @player = Player.create(total_chips: 100)
   ["Beginner", "Intermediate", "High Roller"].each do |level|
-    @game = Game.create(player_id: @player.id, level: level)
+    Game.create(player_id: @player.id, level: level)
   end
     
 

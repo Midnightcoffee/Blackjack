@@ -3,7 +3,7 @@ Given(/^a player joins a game$/) do
 end
 
 When(/^they bet$/) do
-  fill_in "bet", :with => 20 
+  fill_in "Bet-Amount", :with => 20
   click_button("Bet")
 end
 
