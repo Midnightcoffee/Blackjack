@@ -12,7 +12,7 @@ describe Api::V1::GamesController do
 
   describe "Get 'index'" do
     it "returns success" do
-      #TODO: make dynamic
+      #TODO: make dynamic, put index in a before do block
       get :index, :player_id => @player.id
       expect(response).to be_success
     end

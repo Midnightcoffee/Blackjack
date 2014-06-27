@@ -14,7 +14,7 @@ describe "Game Api" do
   describe "put player/#/games/#" do
     describe "Successful bet" do
       it "responds with success" do
-
+        #FIXME put params into a before do block?
         params = {:game_id => @game.id, :bet => 20, :player_id => @player.id}.to_json
         put "/api/v1/players/#{@player.id}/games/#{@game.id}/bet", params, 
           { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
@@ -57,6 +57,7 @@ describe "Game Api" do
     end
 
     describe "Un-Successful bet" do
+      #TODO break up tests
       describe "player doesn't have enough chips" do
 
         it "responds with error message" do

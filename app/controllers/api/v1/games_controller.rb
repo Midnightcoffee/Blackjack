@@ -34,16 +34,22 @@ module Api
 
 
       def bet
-        #TODO refactor out!
         @player = Player.find(params[:player_id])
         @game = @player.games.find(params[:id]);
-        if @player.bet(@game, params[:player_bet])
+        @bet = params[:bet]
+
+        if @player.enough_chips? @bet && @game.within_range? @bet
+          @player.total_chips -= @bet
+          @game.player_bet = @bet
+          #TODO anyway to make this update an all or nothing?
+          @player.save!
+          @game.save!
           render json: @game, only: 
-            [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
-            status: 200 
+             [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
+             status: 200 
         else
-          #FIXME error message
-          render json: {}, status: 400
+          #FIXME: bettor error
+          render json: {error: "something went wrong"}, status: 400
         end
 
       end

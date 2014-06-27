@@ -10,21 +10,7 @@ class Player < ActiveRecord::Base
     end 
   end
 
-  #FIXME better way to express this
-  #TODO: game range
-  def bet game, amount
-    if self.total_chips >= amount && Game.legal_bet_range(amount, game.level)
-      self.total_chips = self.total_chips - amount
-      self.save
-      game.player_bet = amount
-      game.save!
-      true 
-    else
-      false
-    end
+  def enough_chips? bet
+    self.total_chips >= bet
   end
-    #TODO something otherwise error message?
-
-
-
 end
