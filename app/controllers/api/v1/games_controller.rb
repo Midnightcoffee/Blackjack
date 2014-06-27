@@ -46,7 +46,7 @@ module Api
           #include player bet?
           @player.save!
           @game.save!
-          puts "IN CONTROLLER AFTER SAVE: #{@game.player_bet}"
+
 
           return render json: @game, only: 
             [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 #FIXME: how should I include business logic in rpsec tests?
-describe "Game Api" do
+RSpec.describe "get game bet", :type => :request do
   before do
     @player = FactoryGirl.create(:player, :total_chips => 100)
     @game = FactoryGirl.create(:game, 
@@ -48,10 +48,8 @@ describe "Game Api" do
 
       it "responds with the same amount as the players_bet in database" do
         params = {:game_id => @game.id, :bet => 20, :player_id => @player.id}.to_json
-        puts "BEFORE: #{@game.player_bet}"
         put "/api/v1/players/#{@player.id}/games/#{@game.id}/bet", params, 
           { 'Accept' => Mime::JSON, 'Content-Type' => Mime::JSON.to_s }
-        puts "AFTER: #{@game.player_bet}"
         json = json(response.body)
         expect(json[:player_bet]).to eql(@game.player_bet)
       end
