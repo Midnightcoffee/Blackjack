@@ -10,7 +10,7 @@ class Player < ActiveRecord::Base
     end 
   end
 
-  def enough_chips? bet
-    self.total_chips >= bet
+  def enough_chips? player_bet
+    self.total_chips >= player_bet
   end
 end

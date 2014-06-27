@@ -23,8 +23,6 @@ module Api
         render json: @game, status: 200
       end
 
-      
-
       # -------------- custom routes --------------------------
       def levels
         @games = Game.all
@@ -32,26 +30,24 @@ module Api
         render json: @games.all, :only => ["id", "level"], status: 200
       end
 
-
       def bet
         @player = Player.find(params[:player_id])
         @game = @player.games.find(params[:id]);
         #FIXME bet to player_bet
-        @bet = params[:bet]
+        @player_bet = params[:player_bet]
 
-        if @player.enough_chips?(@bet) && @game.within_range?(@bet)
-          @player.total_chips -= @bet
-          @game.player_bet = @bet
+        #FIXME: better flow control
+        if @player.enough_chips?(@player_bet) && @game.within_range?(@player_bet)
+          @player.total_chips -= @player_bet
+          @game.player_bet = @player_bet
           #TODO anyway to make this update an all or nothing?
           #include player bet?
           @player.save!
           @game.save!
 
-
           return render json: @game, only: 
             [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
             status: 201
-
         end
         #FIXME: bettor error
         return render json: {error: "something went wrong"}, status: 403

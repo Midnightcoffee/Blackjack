@@ -13,8 +13,8 @@ class Game < ActiveRecord::Base
     
   #FIXME is there a way to get the game_id from the instance
   #FIXME maybe this shouldn't be self.method
-  def within_range? bet
-    bet >= @@bet_range[self.level][:min] && bet <= @@bet_range[self.level][:max]
+  def within_range? player_bet
+    player_bet >= @@bet_range[self.level][:min] && player_bet <= @@bet_range[self.level][:max]
   end
 
   #FIXME there is a much better way to do this
