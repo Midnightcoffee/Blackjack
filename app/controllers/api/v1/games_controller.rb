@@ -36,21 +36,25 @@ module Api
       def bet
         @player = Player.find(params[:player_id])
         @game = @player.games.find(params[:id]);
+        #FIXME bet to player_bet
         @bet = params[:bet]
 
-        if @player.enough_chips? @bet && @game.within_range? @bet
+        if @player.enough_chips?(@bet) && @game.within_range?(@bet)
           @player.total_chips -= @bet
           @game.player_bet = @bet
           #TODO anyway to make this update an all or nothing?
           #include player bet?
-          if @player.save && @game.save
-            render json: @game, only: 
-              [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
-              status: 200 
+          @player.save!
+          @game.save!
+          puts "IN CONTROLLER AFTER SAVE: #{@game.player_bet}"
+
+          return render json: @game, only: 
+            [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
+            status: 201
 
         end
         #FIXME: bettor error
-        render json: {error: "something went wrong"}, status: 400
+        return render json: {error: "something went wrong"}, status: 403
 
       end
 
