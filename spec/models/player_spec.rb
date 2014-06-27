@@ -16,29 +16,17 @@ describe Player do
     expect(@player.total_chips).to eql(100)
   end
 
-  describe "Successful Bet" do
-    it "should save bet" do
+  describe "#enough_chips?" do
+    it "should have enough chips" do
+      @player.total_chips = 100
       @bet = 30
-      expect(@player.bet(@game, @bet)).to equal(true)
-      expect(@game.player_bet).to equal(@bet)
+      expect(@player.enough_chips? @bet).to equal(true)
     end
 
-    it "should deduct from total_chips" do
+    it "shouldn't have enough chips" do
+      @player.total_chips = 20
       @bet = 30
-      @before_total_chips = @player.total_chips
-      expect(@player.bet(@game, @bet)).to equal(true)
-      expect(@player.total_chips).to equal(@before_total_chips - @bet)
-    end
-  end
-
-  describe "UnSuccessful Bet" do
-    describe "not enough total chips" do
-      #TODO this is the wrong wording but not sure why
-      it "should not save bet" do
-        @bet = 200
-        expect(@player.bet(@game, @bet)).to eql(false)
-        expect(@game.player_bet).to equal(0)
-      end
+      expect(@player.enough_chips? @bet).to equal(false)
     end
   end
 end

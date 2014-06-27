@@ -42,15 +42,15 @@ module Api
           @player.total_chips -= @bet
           @game.player_bet = @bet
           #TODO anyway to make this update an all or nothing?
-          @player.save!
-          @game.save!
-          render json: @game, only: 
-             [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
-             status: 200 
-        else
-          #FIXME: bettor error
-          render json: {error: "something went wrong"}, status: 400
+          #include player bet?
+          if @player.save && @game.save
+            render json: @game, only: 
+              [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
+              status: 200 
+
         end
+        #FIXME: bettor error
+        render json: {error: "something went wrong"}, status: 400
 
       end
 
