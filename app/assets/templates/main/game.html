@@ -2,10 +2,12 @@
 
 <form ng-submit="bet()">
     <!-- send min and max as well for better UX-->
-    <input type="number" ng-model="amount" id="Bet-Amount">
-    <input type="submit" value="Bet">
+    
+    <input type="number" ng-model="amount" id="Amount">
+    <input type="submit" value="Bet" id="Bet">
 </form>
 
+<!-- TODO: better styling -->
 current bet - {{ game.player_bet }}
-hand - {{ game.player_hand }}
+player-hand - {{ game.player_hand }}
 dealer-hand - {{ game.dealer_hand }}

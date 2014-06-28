@@ -48,7 +48,13 @@ end
 Before do
   DatabaseCleaner.clean
   @player = FactoryGirl.create(:player, total_chips:100)
-  ["Beginner", "Intermediate", "High Roller"].each { |level| FactoryGirl.create(:game, level: level, player_id: @player.id) }
+  ["Beginner", "Intermediate", "High Roller"].each do |level| 
+    FactoryGirl.create(:game, 
+                       level: level, 
+                       player_id: @player.id, 
+                       deck_sleeve: "Heart,Ace Heart,10 Spade,Ace, Spade,10",
+                       player_bet: 0) 
+  end
 end
 
 

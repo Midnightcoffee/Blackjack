@@ -40,10 +40,10 @@ Blackjack.controller("LobbyCtrl", function($scope, games){
   $scope.games = games;
 });
 
-Blackjack.controller("GameCtrl", function($scope, $http, game){
+Blackjack.controller("GameCtrl", function($scope, $http, game, gamesResource){
   
   $scope.game = game;
-  console.log(game);
+
 
   $scope.amount = 0;
   //FIXME: the offical docs for ng-submit don't pass data as a argument,
@@ -54,12 +54,7 @@ Blackjack.controller("GameCtrl", function($scope, $http, game){
     //FIXME: hard coded player id, only one game currently
     $http.put("/api/v1/players/1/games/1/bet", data)
       .success(function () {
-        // hand code game id
-
-        $http.get("/api/v1/players/1/games/1").success(function (data) {
-          $scope.game = data;
-        });
-
+        $scope.game = gamesResource.getCurrent();
       })
   };
 });
@@ -74,6 +69,7 @@ Blackjack.factory("playersResource", function($resource, $http) {
 Blackjack.factory("gamesResource", function($resource) {
   return {
     getCurrent: function () {
+      //FIXME: hardcoded
       return $resource("/api/v1/players/1/games/1").get(); 
     
     },
@@ -83,6 +79,7 @@ Blackjack.factory("gamesResource", function($resource) {
     },
 
     betAmount: function () {
+      //FIXME: hardcoded
       return $http("PUT", "/api/v1/players/1/games/1/bet").query();  
     }
   }
