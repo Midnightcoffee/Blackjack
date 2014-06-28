@@ -6,8 +6,9 @@ describe("GameCtrl", function(){
     var mockScope = {};
     var controller;
     var backend;
-    var dealer_hand = "Heart,Ace Heart,10";
-    var player_hand = "Spade,Ace Spade,10";
+    var dealer_hand = "Heart,Ace|Heart,10|";
+    var player_hand = "Spade,Ace|Spade,10|";
+    var player_bet = 20;
 
 
     beforeEach(angular.mock.module("Blackjack"));
@@ -15,10 +16,8 @@ describe("GameCtrl", function(){
     beforeEach(angular.mock.inject(function ($httpBackend) {
       backend = $httpBackend;
       backend.expect("PUT", "/api/v1/players/1/games/1/bet", {player_bet: 20})
-        .respond({player_bet: 20});
+        .respond({player_bet: player_bet, player_hand: player_hand, dealer_hand: dealer_hand});
 
-      backend.expect("GET", "/api/v1/players/1/games/1")
-        .respond({player_bet: 20, player_hand: player_hand, dealer_hand: dealer_hand});
     }));
     
 
