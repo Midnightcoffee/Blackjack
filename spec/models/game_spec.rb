@@ -2,8 +2,16 @@ require 'rails_helper'
 
 describe Game do
   before do
-    @player = Player.new(total_chips: 100) 
-    @game = Game.new(player_id: @player.id, level: "Beginner", id: 1, player_bet: 0) 
+    #TODO factory girl?
+    @player = Player.new(total_chips: 100, id: 1) 
+    @game = Game.new(player_id: 
+                     @player.id, 
+                     level: "Beginner", 
+                     id: 1, 
+                     player_bet: 0,
+                     player_hand: "",
+                     dealer_hand: "",
+                     deck_sleeve: "Diamond,Ace|Heart,Ace|Heart,10|Spade,Ace|Spade,10|")
   end
 
   subject { @game }
@@ -78,22 +86,28 @@ describe Game do
     end
   end
 
-  describe "Deck" do
-    # describe "deal" do
-    #   @game.deck_sleeve = "Spade,Ace Spade,10 Heart,Ace Heart,10"
-    #   @game.deal
+  describe "#Deal" do
+    before do
+      @game.deck_sleeve = "Diamond,Ace|Heart,Ace|Heart,10|Spade,Ace|Spade,10"
+      @game.deal
+    end
+    #FIXME shorter syntax suger?
+    it "players_hand" do
+      expect(@game.player_hand).to eq("Spade,10|Spade,Ace|") 
+    end
+    it "dealers_hand" do
+      expect(@game.dealer_hand).to eq("Heart,10|Heart,Ace|")
+    end
 
-    #   expect(@game.player_hand).to eq("Heart,Ace Heart,10")
-    #   expect(@game.dealer_hand).to eq("Spade,Ace Spade,10")
-    #end
-
-    describe "hit" do
-      #
-      #@game.deck_sleeve = "Spade,Ace Spade,10 Heart,Ace Heart,10"
-      # @game.hit @player
-      # expect(@game.player_hand).to eq("Heart,10")
+    it "remaining_deck" do
+      expect(@game.deck_sleeve).to eq("Diamond,Ace|")
     end
     
   end
 
+  it "#hit" do
+     @game.hit "player"
+     expect(@game.player_hand).to eq("Spade,10|")
+     expect(@game.deck_sleeve).to eq("Diamond,Ace|Heart,Ace|Heart,10|Spade,Ace|")
+  end
 end

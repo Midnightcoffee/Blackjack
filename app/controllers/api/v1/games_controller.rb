@@ -40,8 +40,11 @@ module Api
         if @player.enough_chips?(@player_bet) && @game.within_range?(@player_bet)
           @player.total_chips -= @player_bet
           @game.player_bet = @player_bet
+          #FIXME: pass along players how to include players
+          @game.deal
           #TODO anyway to make this update an all or nothing?
           #include player bet?
+          #DEAL
           @player.save!
           @game.save!
 

@@ -53,8 +53,8 @@ Blackjack.controller("GameCtrl", function($scope, $http, game, gamesResource){
     data = {player_bet: $scope.amount};
     //FIXME: hard coded player id, only one game currently
     $http.put("/api/v1/players/1/games/1/bet", data)
-      .success(function () {
-        $scope.game = gamesResource.getCurrent();
+      .success(function (data) {
+        $scope.game = data;
       })
   };
 });

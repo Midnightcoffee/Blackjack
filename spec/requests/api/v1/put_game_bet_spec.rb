@@ -40,15 +40,19 @@ RSpec.describe "get game bet", :type => :request do
         expect(game_response[:player_bet]).to eql(20)
       end
 
-      it "responds with the same amount as the players_bet in database" do
+      #FIXME higher context
+      it "bet matches database" do
         game_response = json(response.body)
         @game.reload
         expect(game_response[:player_bet]).to eql(@game.player_bet)
       end
 
-      it "responds with player_hand" do
+      it "player_hand matches database" do
         game_response = json(response.body)
         @game.reload
+        puts @game.player_hand
+        puts @game.dealer_hand
+        puts @game.player_bet
         expect(game_response[:player_hand]).to eql(@game.player_hand)
       end
     end
