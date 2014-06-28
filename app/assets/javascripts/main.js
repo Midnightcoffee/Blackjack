@@ -52,8 +52,8 @@ Blackjack.controller("GameCtrl", function($scope, $http, game, gamesResource){
     //FIXME hard coded
     data = {player_bet: $scope.amount};
     //FIXME: hard coded player id, only one game currently
-    $http.put("/api/v1/players/1/games/1/bet", data)
-      .success(function (data) {
+    $http.put("/api/v1/players/1/games/1/bet", data).
+      success(function (data) {
         $scope.game = data;
       })
   };
