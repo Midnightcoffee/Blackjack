@@ -22,7 +22,7 @@ describe Api::V1::GamesController do
       #TODO: make dynamic
       get :index, :player_id => @player.id
       games_response = json(response.body)
-      expect(games_response.length).to eq(3)
+      expect(games_response.length).to eql(3)
     end
 
     #TODO: other levels
@@ -30,7 +30,8 @@ describe Api::V1::GamesController do
       #TODO: make dynamic
       get :index, :player_id => @player.id
       games_response = json(response.body)
-      expect(games_response[0][:level]).to eq("Beginner")
+      expect(games_response[0][:level]).to eql("Beginner")
     end
+
   end
 end

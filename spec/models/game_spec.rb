@@ -96,11 +96,11 @@ describe Game do
       expect(@game.player_hand).to eq("Spade,10|Spade,Ace|") 
     end
     it "dealers_hand" do
-      expect(@game.dealer_hand).to eq("Heart,10|Heart,Ace|")
+      expect(@game.dealer_hand).to eq("Heart,10|")
     end
 
     it "remaining_deck" do
-      expect(@game.deck_sleeve).to eq("Diamond,Ace|")
+      expect(@game.deck_sleeve).to eq("Diamond,Ace|Heart,Ace|")
     end
     
   end

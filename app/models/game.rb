@@ -26,7 +26,8 @@ class Game < ActiveRecord::Base
       #TODO: dealer?
     end
     # if we had multiple players it would like players.each do |player|
-    2.times do
+    # 1 times makes life easier and it doesn't matter when dealer gets his cards
+    1.times do
       self.hit "game"
       #TODO: dealer?
     end

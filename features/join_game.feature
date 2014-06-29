@@ -9,5 +9,5 @@ Feature: Join Game
     Then they should be put into the game room.
       And a player stats widget.
       And that player stats widget shows his total chip count.
-      And they should NOT see the option to hold
+      And they should NOT see the option to stand
       And they should NOT see the option to hit

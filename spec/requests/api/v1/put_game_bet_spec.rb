@@ -52,6 +52,18 @@ RSpec.describe "get game bet", :type => :request do
         @game.reload
         expect(game_response[:player_hand]).to eql(@game.player_hand)
       end
+
+      it "dealer_hand does matches database" do
+        game_response = json(response.body)
+        @game.reload
+        expect(game_response[:dealer_hand]).to eql(@game.dealer_hand)
+      end
+
+      it "dealer_hand" do
+        game_response = json(response.body)
+        @game.reload
+        expect(game_response[:dealer_hand]).to eql("Heart,10|")
+      end
     end
 
     describe "Un-Successful bet" do

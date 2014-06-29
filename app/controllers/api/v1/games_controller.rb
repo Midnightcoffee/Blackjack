@@ -48,12 +48,13 @@ module Api
           @player.save!
           @game.save!
 
-          return render json: @game, only: 
+          render json: @game, only: 
             [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
             status: 201
+        else
+          #FIXME: bettor error
+          render json: {error: "something went wrong"}, status: 403
         end
-        #FIXME: bettor error
-        return render json: {error: "something went wrong"}, status: 403
 
       end
 
@@ -63,14 +64,11 @@ module Api
         @game = @player.games.find(params[:id]);
         #TODO: better way to reference were hitting on player
         @game.hit "player"
+        @game.
         render json: @game, only: 
             [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
             status: 201
       end
-
-
-
-
     end
   end
 end

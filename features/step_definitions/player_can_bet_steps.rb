@@ -29,15 +29,15 @@ end
 
 Then(/^they should see the dealers card$/) do
   @game = Game.find(1)
-  #FIXME: should be just one card
+  #FIXME: should be just one card, currently to make it easier i'm only
   expect(page).to have_text(@game.dealer_hand)
-  expect(page).to have_text("Heart,Ace")
   expect(page).to have_text("Heart,10")
+  expect(page).not_to have_text("Heart,Ace")
 end
 
 
-Then(/^they should see the option to hold$/) do
-  expect(page).to have_button("Hold")
+Then(/^they should see the option to stand$/) do
+  expect(page).to have_button("Stand")
 end
 
 Then(/^they should see the option to hit$/) do

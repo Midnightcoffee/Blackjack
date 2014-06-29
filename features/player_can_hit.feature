@@ -15,3 +15,5 @@ Feature: Player can hit
       And they should see the option to hit
     Then they should be able to hit
       And they should NOT see their card
+
+      #TODO: more detailed stories or should those be just in the unit tests?
