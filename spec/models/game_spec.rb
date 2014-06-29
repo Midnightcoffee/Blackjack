@@ -105,11 +105,28 @@ describe Game do
     
   end
 
-  it "#hit" do
-     @game.hit "player"
-     expect(@game.player_hand).to eq("Spade,10|")
-     expect(@game.deck_sleeve).to eq("Diamond,Ace|Heart,Ace|Heart,10|Spade,Ace|")
+  describe "#hit" do
+    it "successful" do
+      @game.deck_sleeve = "Diamond,Ace|Heart,Ace|Heart,10|Spade,Ace|Spade,10"
+      @game.hit "player"
+      #TODO: mock bust
+      expect(@game.player_hand).to eq("Spade,10|")
+      expect(@game.deck_sleeve).to eq("Diamond,Ace|Heart,Ace|Heart,10|Spade,Ace|")
+    end
+
+    it "#busts" do
+      @game.deck_sleeve = "Spade,9|Diamond,10|"
+      @game.player_hand = "Spade,10|Heart,10|" 
+      @game.hit "player"
+      #TODO: mock bust
+      #TODO: mock bust
+      expect(@game.player_hand).to eq("")
+      expect(@game.player_bet).to eq(0)
+      expect(@game.deck_sleeve).to eq("Spade,9|")
+    end
+    
   end
+
 
   #TODO hit when game not in play
 

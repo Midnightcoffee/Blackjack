@@ -40,8 +40,16 @@ class Game < ActiveRecord::Base
     card = @deck_sleeve.pop()
     if who == "player"
       self.player_hand += card + "|"
+      #TODO DRY
+      if self.bust? self.player_hand
+        self.game_over
+      end
     else
       self.dealer_hand += card + "|"
+      #TODO DRY
+      if self.bust? self.dealer_hand
+        self.game_over
+      end
     end
     self.deck_sleeve = @deck_sleeve.join("|").concat("|")
     self.save
@@ -57,14 +65,31 @@ class Game < ActiveRecord::Base
       if self.player_hand == "Spade,10|Spade,Ace|" 
         @player.total_chips += (2 * self.player_bet)
       end
-      # 
     end
     #FIXME put into "game over state/reset method "
     @player.save
+    self.game_over
+  end
+
+  def bust? hand
+    #TODO: refactor into its own function
+    hand = hand.split("|")
+    #TODO: special cases like Ace
+    total = 0 
+    hand.each do |hand|
+      suit, value = hand.split(",")
+      total += value.to_i  
+    end
+    total > 21
+  end
+
+  def game_over
     self.player_hand = ""
     self.dealer_hand = ""
     self.player_bet = 0
     self.save
   end
 
+    
+    
 end
