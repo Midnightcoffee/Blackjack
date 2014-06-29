@@ -8,10 +8,7 @@
     <input type="submit" value="Bet" id="Bet" ng-hide="game.player_bet">
 </form>
 
-<form ng-submit="hold()">
-  <input type="button" id="Hold" value="Hold" ng-show="game.player_bet">
-</form>
-
+<button ng-click="hold()" id="Hold" ng-show="game.player_bet">Hold</button>
 <button ng-click="hit()" id="Hit" ng-show="game.player_bet">Hit</button>
 
 
