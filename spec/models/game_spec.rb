@@ -110,4 +110,40 @@ describe Game do
      expect(@game.player_hand).to eq("Spade,10|")
      expect(@game.deck_sleeve).to eq("Diamond,Ace|Heart,Ace|Heart,10|Spade,Ace|")
   end
+
+  #TODO hit when game not in play
+
+  describe "#stand" do
+    before do 
+    end
+    it "player wins" do 
+      @game.player_hand = "Spade,10|Spade,Ace|" 
+      @game.dealer_hand = "Heart,Ace|Heart,9|" 
+      @game.player_bet = 30
+      @player.total_chips = 70
+      @game.save
+      @player.save
+      #TODO: hold only makes sense like this with one player
+      @game.stand "player"
+      @player.reload
+      expect(@player.total_chips).to eq(130)
+
+    end
+
+    it "player loses" do 
+      #FIXME: put in before block
+      @game.player_hand = "Spade,9|Spade,Ace|" 
+      @game.dealer_hand = "Heart,Ace|Heart,10|" 
+      @game.player_bet = 30
+      @player.total_chips = 70
+      @game.save
+      @player.save
+      #TODO: hold only makes sense like this with one player
+      @game.stand "player"
+      @player.reload
+      expect(@player.total_chips).to eq(70)
+    end
+    
+  end 
+
 end

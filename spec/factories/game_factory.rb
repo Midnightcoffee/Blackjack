@@ -5,6 +5,6 @@ FactoryGirl.define do
     player_bet 0
     player_hand ""
     dealer_hand ""
-    deck_sleeve "Diamond,Ace|Heart,Ace|Heart,10|Spade,Ace|Spade,10|"
+    deck_sleeve "Diamond,Ace|Heart,Ace|Heart,9|Spade,Ace|Spade,10|"
   end
 end

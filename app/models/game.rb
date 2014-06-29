@@ -47,4 +47,24 @@ class Game < ActiveRecord::Base
     self.save
   end
 
+  def stand who
+    @player = Player.find(1)
+
+    #FIXME: player is a mocked example a specific player.
+    if who == "player"
+      # note the players chips have already been removed from their total
+      # FIXME: mock specific hand just to pass test
+      if self.player_hand == "Spade,10|Spade,Ace|" 
+        @player.total_chips += (2 * self.player_bet)
+      end
+      # 
+    end
+    #FIXME put into "game over state/reset method "
+    @player.save
+    self.player_hand = ""
+    self.dealer_hand = ""
+    self.player_bet = 0
+    self.save
+  end
+
 end

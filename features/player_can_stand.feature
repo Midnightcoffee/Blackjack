@@ -6,8 +6,8 @@ Feature: Player can stand
       And they bet
       And they should see the option to stand
     Then they should be able to stand
-      And they should see the dealers remaining card
-      And they should see the dealer play
+      #TODO: mock feature
+      And they should see the option to bet
 
 
     

@@ -24,6 +24,9 @@ describe("GameCtrl", function(){
       //TODO: hardcoded
       backend.when("PUT", "/api/v1/players/1/games/1/hit")
         .respond({player_bet: player_bet, player_hand: player_hand, dealer_hand: dealer_hand});
+
+      backend.when("PUT", "/api/v1/players/1/games/1/stand")
+        .respond({player_bet: player_bet, player_hand: player_hand, dealer_hand: dealer_hand});
     }));
     
 

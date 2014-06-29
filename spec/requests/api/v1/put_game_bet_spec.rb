@@ -61,7 +61,7 @@ RSpec.describe "betting", :type => :request do
       it "dealer_hand" do
         game_response = json(response.body)
         @game.reload
-        expect(game_response[:dealer_hand]).to eql("Heart,10|")
+        expect(game_response[:dealer_hand]).to eql("Heart,9|")
       end
     end
 
