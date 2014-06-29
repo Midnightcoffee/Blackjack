@@ -69,4 +69,11 @@ describe("GameCtrl", function(){
       expect(mockScope.game['player_hand']).to.equal(player_hand);
       expect(mockScope.game['dealer_hand']).to.equal(dealer_hand);
     });
+
+    it("a stand sends a PUT request ", function() {
+      mockScope.stand();
+      backend.flush();
+      expect(mockScope.game['player_hand']).to.equal(player_hand);
+      expect(mockScope.game['dealer_hand']).to.equal(dealer_hand);
+    });
 });

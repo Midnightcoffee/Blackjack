@@ -67,6 +67,16 @@ Blackjack.controller("GameCtrl", function($scope, $http, game, gamesResource){
 
       })
     };
+
+  $scope.stand = function(){
+    //FIXME hard coded
+    //FIXME: hard coded player id, only one game currently
+    $http.put("/api/v1/players/1/games/1/stand").
+      success(function (data) {
+        $scope.game = data;
+
+      })
+    };
 });
 
 // --------------- FACTORIES ----------------------------

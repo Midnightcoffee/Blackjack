@@ -6,6 +6,7 @@ Blackjack::Application.routes.draw do
           member do
             put 'bet'
             put 'hit'
+            put 'stand'
           end
         end
       end
