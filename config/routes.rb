@@ -5,6 +5,7 @@ Blackjack::Application.routes.draw do
         resources :games, only: [:index, :show] do
           member do
             put 'bet'
+            put 'hit'
           end
         end
       end

@@ -12,9 +12,7 @@
   <input type="button" id="Hold" value="Hold" ng-show="game.player_bet">
 </form>
 
-<form ng-submit="hit()">
-  <input type="button" id="Hit" value="Hit" ng-show="game.player_bet">
-</form>
+<button ng-click="hit()" id="Hit" ng-show="game.player_bet">Hit</button>
 
 
 current bet - {{ game.player_bet }}

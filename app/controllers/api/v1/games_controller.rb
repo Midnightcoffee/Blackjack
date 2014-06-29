@@ -57,6 +57,20 @@ module Api
 
       end
 
+      def hit
+        #TODO: refactor out pulling params into parent method
+        @player = Player.find(params[:player_id])
+        @game = @player.games.find(params[:id]);
+        #TODO: better way to reference were hitting on player
+        @game.hit "player"
+        render json: @game, only: 
+            [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
+            status: 201
+      end
+
+
+
+
     end
   end
 end

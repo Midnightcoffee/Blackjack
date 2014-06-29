@@ -11,4 +11,6 @@ Feature: Player can bet
       And they should see the option to hold
       And they should see the option to hit
       And they should NOT see the option to bet
+
+    #TODO: add unsuccesfful bet
   
