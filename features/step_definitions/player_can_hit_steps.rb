@@ -5,6 +5,7 @@ end
 Then(/^they should see their card$/) do
   #TODO: better test needed probable implies better modeling needed
   #expect(page).to have_selector('.card', :count => 3)
+  #FIXME to dependent on outcome of hit
   expect(page).to have_text('|', :count => 4)
 end
 

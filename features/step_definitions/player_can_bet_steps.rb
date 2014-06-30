@@ -23,16 +23,17 @@ Then(/^they should see their cards$/) do
   @game = Game.find(1)
   expect(page).to have_text(@game.player_hand)
   #FIXME make sure its under player cards element or something
-  expect(page).to have_text("Spade,Ace")
-  expect(page).to have_text("Spade,10")
+  expect(page).to have_text("Diamond,Jack")
+  expect(page).to have_text("Diamond,5")
 end
 
 Then(/^they should see the dealers card$/) do
   @game = Game.find(1)
   #FIXME: should be just one card, currently to make it easier i'm only
+  #FIXME: decouple from deck
   expect(page).to have_text(@game.dealer_hand)
-  expect(page).to have_text("Heart,9")
-  expect(page).not_to have_text("Heart,Ace")
+  expect(page).to have_text("Diamond,10")
+  expect(page).not_to have_text("Club,5")
 end
 
 
