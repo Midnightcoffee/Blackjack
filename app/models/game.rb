@@ -90,6 +90,19 @@ class Game < ActiveRecord::Base
     self.save
   end
 
-    
-    
+  def create_deck
+    deck_sleeve = ""
+    6.times do
+      deck = ""
+      ["Spade", "Diamond", "Heart", "club"].each do |suit|
+        ["2","3","4","5","6","7","8","9","10","Jack","Queen","King","Ace"].each do |v|
+          card =  suit + "," + v + "|"
+          deck.concat(card) 
+        end
+      end
+      deck_sleeve.concat(deck)
+    end
+    self.deck_sleeve = deck_sleeve
+    self.save
+  end
 end

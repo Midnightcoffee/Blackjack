@@ -163,4 +163,21 @@ describe Game do
     
   end 
 
+  describe "Create deck_sleeve" do
+    before do
+      @game.create_deck
+    end
+
+    it "should have 312 card" do
+      #312 = 52 cards * 6 decks
+      expect(@game.deck_sleeve.count("|")).to eq(312) 
+    end
+
+    it "should have 72 spade cards" do
+      #TODO: explain through cards?
+      #78 = 13 cards of a suit * 6
+      expect(@game.deck_sleeve.scan(/Spade/).count).to eq(78) 
+    end 
+  end
+
 end
