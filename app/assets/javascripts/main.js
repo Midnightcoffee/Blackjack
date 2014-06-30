@@ -19,8 +19,8 @@ Blackjack.config(function ($routeProvider){
             templateUrl: "assets/main/game.html",
             controller: "GameCtrl",
             resolve: {
-              game: function (gamesResource) {
-                return gamesResource.getCurrent();
+              game: function (gamesResource, $route) {
+                return gamesResource.getCurrent($route.current.params.id);
               }
             }
   });
@@ -40,8 +40,8 @@ Blackjack.controller("LobbyCtrl", function($scope, games){
   $scope.games = games;
 });
 
-Blackjack.controller("GameCtrl", function($scope, $http, game, gamesResource){
-  
+Blackjack.controller("GameCtrl", function($scope, $http, game, gamesResource, $routeParams){
+
   $scope.game = game;
 
 
@@ -52,6 +52,7 @@ Blackjack.controller("GameCtrl", function($scope, $http, game, gamesResource){
     //FIXME hard coded
     data = {player_bet: $scope.amount};
     //FIXME: hard coded player id, only one game currently
+    //FIXME: can bet,hit,stand use factories?
     $http.put("/api/v1/players/1/games/1/bet", data).
       success(function (data) {
         $scope.game = data;
@@ -88,9 +89,8 @@ Blackjack.factory("playersResource", function($resource, $http) {
 
 Blackjack.factory("gamesResource", function($resource) {
   return {
-    getCurrent: function () {
-      //FIXME: hardcoded
-      return $resource("/api/v1/players/1/games/1").get(); 
+    getCurrent: function (id) {
+      return $resource("/api/v1/players/1/games/:gameId", {gameId: id}).get(); 
     
     },
 
@@ -98,9 +98,9 @@ Blackjack.factory("gamesResource", function($resource) {
       return $resource("/api/v1/games/levels").query();  
     },
 
-    betAmount: function () {
+    betAmount: function (id) {
       //FIXME: hardcoded
-      return $http("PUT", "/api/v1/players/1/games/1/bet").query();  
+      return $http("PUT", "/api/v1/players/1/games/:gameId/bet", {gameId: id}).query();  
     }
   }
 });
