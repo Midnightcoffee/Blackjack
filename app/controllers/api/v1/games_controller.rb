@@ -90,7 +90,7 @@ module Api
         if @game.player_bet != 0
 
           #TODO: better way to reference were hitting on player
-          @game.stand "player"
+          @game.stand
           render json: @game, only: 
               [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
               status: 201

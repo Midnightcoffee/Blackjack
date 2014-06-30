@@ -3,9 +3,9 @@ require 'rails_helper'
 describe Game do
   before do
     #TODO factory girl?
-    @player = Player.new(total_chips: 100, id: 1) 
-    @game = Game.new(player_id: 
-                     @player.id, 
+    @player = FactoryGirl.create(:player, total_chips: 100, id: 1) 
+    @game = FactoryGirl.create(:game, 
+                     player_id: @player.id, 
                      level: "Beginner", 
                      id: 1, 
                      player_bet: 0,
@@ -119,7 +119,6 @@ describe Game do
       @game.player_hand = "Spade,10|Heart,10|" 
       @game.hit "player"
       #TODO: mock bust
-      #TODO: mock bust
       expect(@game.player_hand).to eq("")
       expect(@game.player_bet).to eq(0)
       expect(@game.deck_sleeve).to eq("Spade,9|")
@@ -130,38 +129,39 @@ describe Game do
 
   #TODO hit when game not in play
 
-  describe "#stand" do
-    before do 
-    end
-    it "player wins" do 
-      @game.player_hand = "Spade,10|Spade,Ace|" 
-      @game.dealer_hand = "Heart,Ace|Heart,9|" 
-      @game.player_bet = 30
-      @player.total_chips = 70
-      @game.save
-      @player.save
-      #TODO: hold only makes sense like this with one player
-      @game.stand "player"
-      @player.reload
-      expect(@player.total_chips).to eq(130)
+  #TODO: do i even need stand method?
+  # describe "#stand" do
+  #   before do 
+  #   end
+  #   it "player wins" do 
+  #     @game.player_hand = "Spade,10|Spade,Ace|" 
+  #     @game.dealer_hand = "Heart,Ace|Heart,9|" 
+  #     @game.player_bet = 30
+  #     @player.total_chips = 70
+  #     @game.save
+  #     @player.save
+  #     #TODO:stand only makes sense like this with one player
+  #     @game.stand
+  #     @player.reload
+  #     expect(@player.total_chips).to eq(130)
 
-    end
+  #   end
 
-    it "player loses" do 
-      #FIXME: put in before block
-      @game.player_hand = "Spade,9|Spade,Ace|" 
-      @game.dealer_hand = "Heart,Ace|Heart,10|" 
-      @game.player_bet = 30
-      @player.total_chips = 70
-      @game.save
-      @player.save
-      #TODO: hold only makes sense like this with one player
-      @game.stand "player"
-      @player.reload
-      expect(@player.total_chips).to eq(70)
-    end
+  #   it "player loses" do 
+  #     #FIXME: put in before block
+  #     @game.player_hand = "Spade,9|Spade,Ace|" 
+  #     @game.dealer_hand = "Heart,Ace|Heart,10|" 
+  #     @game.player_bet = 30
+  #     @player.total_chips = 70
+  #     @game.save
+  #     @player.save
+  #     #TODO: hold only makes sense like this with one player
+  #     @game.stand "player"
+  #     @player.reload
+  #     expect(@player.total_chips).to eq(70)
+  #   end
     
-  end 
+  # end 
 
   describe "Create deck_sleeve" do
     before do
@@ -218,6 +218,85 @@ describe Game do
       #TODO: special blackjack?
       hand = "Spade,Ace|Heart,Ace|Club,Ace|Diamond,Ace|Club,2|Heart,2|Diamond,2|Spade,2|Spade,3|Heart,3|Diamond,3|"
       expect(@game.hand_value hand).to eq(21)   
+    end
+    
+  end
+
+  #TODO: in between game over and new game state needed
+  # describe "dealer_play" do
+  #   it "hits on 16" do
+  #     @game.deck_sleeve = "Heart,8|"
+  #     @game.dealer_hand = "Heart,10|Heart,6|"
+  #     @game.dealer_play
+  #     expect(@game.dealer_hand).to eq("Heart,10|Heart,6|Heart,8|")
+  #   end
+
+  #   it "stays on 17" do
+  #     @game.deck_sleeve = "Heart,8|"
+  #     @game.dealer_hand = "Heart,10|Heart,7|"
+  #     @game.dealer_play
+  #     expect(@game.dealer_hand).to eq("Heart,10|Heart,7|")
+  #   end
+
+  # end
+
+  describe "#find_winner" do
+
+    it "dealer wins" do
+      #TODO: mock hand value
+      @player.total_chips = 90
+      @player.save
+      @game.player_bet = 10
+      @game.dealer_hand = "Heart,10|Heart,Ace|"
+      @game.player_hand = "Spade,2|Spade,3|"
+      @game.find_winner
+      @game.reload
+      @player.reload
+      #TOOD: mock  deal
+      expect(@game.player_bet).to eq(0)
+      expect(@player.total_chips).to eq(90) 
+    end
+
+    it "dealer loses" do
+      #TODO: mock hand value
+      @player.total_chips = 90
+      @player.save
+      @game.player_bet = 10
+      @game.player_hand = "Heart,10|Heart,Ace|"
+      @game.dealer_hand = "Spade,2|Spade,3|"
+      @game.find_winner
+      @game.reload
+      @player.reload
+      expect(@game.player_bet).to eq(0)
+      expect(@player.total_chips).to eq(110) 
+    end
+
+    it "dealer busts" do
+      #TODO: mock hand value
+      @player.total_chips = 90
+      @player.save
+      @game.player_bet = 10
+      @game.player_hand = "Heart,10|Heart,Ace|"
+      @game.dealer_hand = "Spade,10|Spade,10|Heart,10|"
+      @game.find_winner
+      @game.reload
+      @player.reload
+      expect(@game.player_bet).to eq(0)
+      expect(@player.total_chips).to eq(110) 
+    end
+
+    it "push" do
+      #TODO: mock hand value
+      @player.total_chips = 90
+      @player.save
+      @game.player_bet = 10
+      @game.player_hand = "Heart,2|Heart,3|"
+      @game.dealer_hand = "Spade,2|Spade,3|"
+      @game.find_winner
+      @game.reload
+      @player.reload
+      expect(@game.player_bet).to eq(0)
+      expect(@player.total_chips).to eq(100) 
     end
     
   end
