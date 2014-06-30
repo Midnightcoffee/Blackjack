@@ -180,4 +180,47 @@ describe Game do
     end 
   end
 
+  describe "#card_value" do
+    it "Ace" do
+      card = "Spade,Ace"
+      expect(@game.card_value card).to eq([1,11])  
+    end
+
+    it "King" do
+      card = "Spade,King"
+      expect(@game.card_value card).to eq([10]) 
+    end
+
+    it "2" do
+      card = "Spade,2"
+      expect(@game.card_value card).to eq([2]) 
+    end
+  end
+
+  describe "#hand_value" do
+    it "Ace,Ace,Ace" do
+      hand = "Spade,Ace|Diamond,Ace|Heart,Ace|"
+      expect(@game.hand_value hand).to eq(13)   
+    end
+    it "Ace,Jack" do
+      #TODO: special blackjack?
+      hand = "Spade,Jack|Diamond,Ace|"
+      expect(@game.hand_value hand).to eq(21)   
+    end
+
+    it "10,10,7" do
+      #TODO: special blackjack?
+      hand = "Spade,10|Diamond,10|Spade,7|"
+      expect(@game.hand_value hand).to eq(27)   
+    end
+
+    it "largest hand possible" do
+      #TODO: special blackjack?
+      hand = "Spade,Ace|Heart,Ace|Club,Ace|Diamond,Ace|Club,2|Heart,2|Diamond,2|Spade,2|Spade,3|Heart,3|Diamond,3|"
+      expect(@game.hand_value hand).to eq(21)   
+    end
+    
+  end
+
+
 end

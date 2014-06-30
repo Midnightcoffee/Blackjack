@@ -82,7 +82,7 @@ class Game < ActiveRecord::Base
     end
     total > 21
   end
-
+  #FIXME: maybe game reset?
   def game_over
     self.player_hand = ""
     self.dealer_hand = ""
@@ -91,18 +91,49 @@ class Game < ActiveRecord::Base
   end
 
   def create_deck
-    deck_sleeve = ""
+    deck_sleeve = []
     6.times do
-      deck = ""
+      deck = []
       ["Spade", "Diamond", "Heart", "club"].each do |suit|
-        ["2","3","4","5","6","7","8","9","10","Jack","Queen","King","Ace"].each do |v|
-          card =  suit + "," + v + "|"
-          deck.concat(card) 
+        ["2","3","4","5","6","7","8","9","10","Jack","Queen","King","Ace"].each do |rank|
+          card =  suit + "," + rank
+          deck << card
         end
       end
-      deck_sleeve.concat(deck)
+      deck_sleeve << deck
     end
+    deck_sleeve.shuffle!
+    deck_sleeve = deck_sleeve.join("|") + "|"
     self.deck_sleeve = deck_sleeve
     self.save
+  end
+
+  def hand_value hand
+    hand = hand.split("|")
+    values = []
+    hand.each do |card|
+      values << self.card_value(card)
+    end
+    values = values.sort_by(&:length)
+    best_value = 0
+    values.each do |value|
+      if best_value + value.max <= 21
+        best_value += value.max
+      else
+        best_value += value.min
+      end
+    end
+    best_value
+  end
+
+  def card_value card
+    suit, rank = card.split(",")
+    if ["Ace"].include? rank
+      return [1,11]
+    elsif ["King","Queen","Jack"].include? rank
+      return [10]
+    else
+      return [rank.to_i]
+    end
   end
 end
