@@ -34,13 +34,17 @@ Blackjack.config(function ($routeProvider){
 // --------------- Controllers ----------------------------
 Blackjack.controller("PlayerCtrl", function($scope, playersResource){
   $scope.players = playersResource.get();
+  $scope.$on('update', function(){
+    $scope.players = playersResource.get()
+  })
 });
 
 Blackjack.controller("LobbyCtrl", function($scope, games){
   $scope.games = games;
 });
 
-Blackjack.controller("GameCtrl", function($scope, $http, game, gamesResource, $routeParams){
+Blackjack.controller("GameCtrl", function($scope, $http, game, gamesResource, 
+                                          $routeParams, playersResource, $rootScope){
 
   $scope.game = game;
 
@@ -50,13 +54,13 @@ Blackjack.controller("GameCtrl", function($scope, $http, game, gamesResource, $r
   //
   $scope.bet = function(){
     //FIXME hard coded
-    console.log()
     data = {player_bet: $scope.amount};
     //FIXME: hard coded player id, only one game currently
     //FIXME: can bet,hit,stand use factories?
     $http.put("/api/v1/players/1/games/" + $routeParams["id"] + "/bet", data).
       success(function (data) {
         $scope.game = data;
+        $rootScope.$broadcast("update")
 
       })
     };
@@ -66,6 +70,8 @@ Blackjack.controller("GameCtrl", function($scope, $http, game, gamesResource, $r
     $http.put("/api/v1/players/1/games/" + $routeParams["id"] + "/hit").
       success(function (data) {
         $scope.game = data;
+        $rootScope.$broadcast("update")
+
 
       })
     };
@@ -76,6 +82,9 @@ Blackjack.controller("GameCtrl", function($scope, $http, game, gamesResource, $r
     $http.put("/api/v1/players/1/games/" + $routeParams["id"] + "/stand").
       success(function (data) {
         $scope.game = data;
+        $rootScope.$broadcast("update")
+
+
 
       })
     };
