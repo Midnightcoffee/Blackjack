@@ -14,7 +14,7 @@ describe("GameCtrl", function(){
 
     beforeEach(angular.mock.module("Blackjack"));
 
-    beforeEach(angular.mock.inject(function ($httpBackend) {
+    beforeEach(angular.mock.inject(function ($httpBackend, $routeParams) {
       backend = $httpBackend;
       //TODO: hardcoded and respond with all attributes
       //
@@ -38,7 +38,8 @@ describe("GameCtrl", function(){
             $scope: mockScope,
             //TODO is this an acceptable stub? It should be a mock right?
             game: {level: "Beginner", id: 1},
-            $http: $http
+            $http: $http,
+            $routeParams: {id: 1}
         });
     }));
 

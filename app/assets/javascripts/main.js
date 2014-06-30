@@ -1,5 +1,6 @@
 //= require_self
 
+
 Blackjack = angular.module("Blackjack", ["ngRoute", "ngResource"]);
 
 // FIXME: routeProviders should be chained?
@@ -27,14 +28,14 @@ Blackjack.config(function ($routeProvider){
 
   $routeProvider.otherwise({
     redirectTo: "/"
-    //FIXME do i need to reference the controller and resolve here as well?
+    //FIXME do i need to reference a controller and resolve here as well?
   });
 });
 
 // --------------- Controllers ----------------------------
 Blackjack.controller("PlayerCtrl", function($scope, playersResource){
   $scope.players = playersResource.get();
-  $scope.$on('update', function(){
+  $scope.$on('update-player', function(){
     $scope.players = playersResource.get()
   })
 });
@@ -44,7 +45,7 @@ Blackjack.controller("LobbyCtrl", function($scope, games){
 });
 
 Blackjack.controller("GameCtrl", function($scope, $http, game, gamesResource, 
-                                          $routeParams, playersResource, $rootScope){
+                                  $routeParams, playersResource, $rootScope){
 
   $scope.game = game;
 
@@ -53,45 +54,35 @@ Blackjack.controller("GameCtrl", function($scope, $http, game, gamesResource,
   //is this just an oversight? Why is it better to pass them as values.
   //
   $scope.bet = function(){
-    //FIXME hard coded
     data = {player_bet: $scope.amount};
-    //FIXME: hard coded player id, only one game currently
+
     //FIXME: can bet,hit,stand use factories?
+    //FIXME: They are very similar functions. Is there a way to minimize this code?
     $http.put("/api/v1/players/1/games/" + $routeParams["id"] + "/bet", data).
       success(function (data) {
         $scope.game = data;
-        $rootScope.$broadcast("update")
-
+        $rootScope.$broadcast("update-player")
       })
     };
   $scope.hit = function(){
-    //FIXME hard coded
-    //FIXME: hard coded player id, only one game currently
     $http.put("/api/v1/players/1/games/" + $routeParams["id"] + "/hit").
       success(function (data) {
         $scope.game = data;
-        $rootScope.$broadcast("update")
-
-
+        $rootScope.$broadcast("update-player")
       })
     };
 
   $scope.stand = function(){
-    //FIXME hard coded
-    //FIXME: hard coded player id, only one game currently
     $http.put("/api/v1/players/1/games/" + $routeParams["id"] + "/stand").
       success(function (data) {
         $scope.game = data;
-        $rootScope.$broadcast("update")
-
-
-
+        $rootScope.$broadcast("update-player")
       })
     };
 });
 
 // --------------- FACTORIES ----------------------------
-//
+
 Blackjack.factory("playersResource", function($resource, $http) {
   //FIXME: hardcoded  player id
   return $resource("/api/v1/players/1");
@@ -106,13 +97,8 @@ Blackjack.factory("gamesResource", function($resource) {
 
     getLevels: function () {
       return $resource("/api/v1/games/levels").query();  
-    },
-
-    //TODO: where is this being called?
-    betAmount: function (id) {
-      //FIXME: hardcoded
-      return $http("PUT", "/api/v1/players/1/games/:gameId/bet", {gameId: id}).query();  
     }
+
   }
 });
 
