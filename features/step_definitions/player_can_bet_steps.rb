@@ -12,7 +12,6 @@ end
 Then(/^they should see their bet$/) do
   @game = Game.find(1)
   expect(page).to have_text('25')
-
 end
 Then(/^their bet should be placed$/) do
   @game = Game.find(1)
