@@ -72,15 +72,7 @@ class Game < ActiveRecord::Base
   end
 
   def bust? hand
-    #TODO: refactor into its own function
-    hand = hand.split("|")
-    #TODO: special cases like Ace
-    total = 0 
-    hand.each do |hand|
-      suit, value = hand.split(",")
-      total += value.to_i  
-    end
-    total > 21
+    hand_value(hand) > 21
   end
   #FIXME: maybe game reset?
   def game_over
