@@ -44,16 +44,17 @@ Blackjack.controller("GameCtrl", function($scope, $http, game, gamesResource, $r
 
   $scope.game = game;
 
-
   $scope.amount = 0;
   //FIXME: the offical docs for ng-submit don't pass data as a argument,
   //is this just an oversight? Why is it better to pass them as values.
+  //
   $scope.bet = function(){
     //FIXME hard coded
+    console.log()
     data = {player_bet: $scope.amount};
     //FIXME: hard coded player id, only one game currently
     //FIXME: can bet,hit,stand use factories?
-    $http.put("/api/v1/players/1/games/1/bet", data).
+    $http.put("/api/v1/players/1/games/" + $routeParams["id"] + "/bet", data).
       success(function (data) {
         $scope.game = data;
 
@@ -62,7 +63,7 @@ Blackjack.controller("GameCtrl", function($scope, $http, game, gamesResource, $r
   $scope.hit = function(){
     //FIXME hard coded
     //FIXME: hard coded player id, only one game currently
-    $http.put("/api/v1/players/1/games/1/hit").
+    $http.put("/api/v1/players/1/games/" + $routeParams["id"] + "/hit").
       success(function (data) {
         $scope.game = data;
 
@@ -72,7 +73,7 @@ Blackjack.controller("GameCtrl", function($scope, $http, game, gamesResource, $r
   $scope.stand = function(){
     //FIXME hard coded
     //FIXME: hard coded player id, only one game currently
-    $http.put("/api/v1/players/1/games/1/stand").
+    $http.put("/api/v1/players/1/games/" + $routeParams["id"] + "/stand").
       success(function (data) {
         $scope.game = data;
 
@@ -98,6 +99,7 @@ Blackjack.factory("gamesResource", function($resource) {
       return $resource("/api/v1/games/levels").query();  
     },
 
+    //TODO: where is this being called?
     betAmount: function (id) {
       //FIXME: hardcoded
       return $http("PUT", "/api/v1/players/1/games/:gameId/bet", {gameId: id}).query();  
