@@ -32,7 +32,7 @@ RSpec.describe "betting", :type => :request do
         expect(response.content_type).to eql(Mime::JSON)
       end
       
-      it "responds with the amount the player put" do
+      it "responds with the amount" do
         #FIXME factor out?
         game_response = json(response.body)
         @game.reload
@@ -61,7 +61,7 @@ RSpec.describe "betting", :type => :request do
       it "dealer_hand" do
         game_response = json(response.body)
         @game.reload
-        expect(game_response[:dealer_hand]).to eql("Heart,9|")
+        expect(game_response[:dealer_hand]).to eql("Diamond,10|")
       end
     end
 

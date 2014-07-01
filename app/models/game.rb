@@ -32,7 +32,25 @@ class Game < ActiveRecord::Base
       #TODO: dealer?
     end
   end
+
+  def clear_hands
+    self.player_hand = ""
+    self.dealer_hand = ""
+    self.save
+  end
   
+  def legal_bet? player, player_bet
+    player.enough_chips?(player_bet) && self.within_range?(player_bet) && self.player_bet == 0
+  end
+
+  def place_bet player, player_bet
+    player.total_chips -= player_bet
+    #TODO anyway to make this update an all or nothing?
+    player.save
+    self.player_bet = player_bet
+    self.save
+  end
+
   #hit should be on Dealer and Player
   #FIXME 
   def hit who

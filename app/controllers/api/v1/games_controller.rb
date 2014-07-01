@@ -2,6 +2,7 @@ module Api
   module V1
     class GamesController < ApplicationController 
 
+
       #TODO: refactor loading parent into private method
       #TODO: params.require(:something).permit(x,y) codeschool 4.1
 
@@ -33,33 +34,20 @@ module Api
       def bet
         @player = Player.find(params[:player_id])
         @game = @player.games.find(params[:id]);
-        #FIXME bet to player_bet
         @player_bet = params[:player_bet]
 
-        #FIXME: better flow control
-        #TODO check other game states
-        #Refactor these checks into a on player method?
-        if @player.enough_chips?(@player_bet) && @game.within_range?(@player_bet) && @game.player_bet == 0
-          @player.total_chips -= @player_bet
-          @player.save
-          @game.player_bet = @player_bet
-          @game.save
-          #FIXME: pass along players how to include players
+        if @game.legal_bet? @player, @player_bet
+          @game.place_bet @player, @player_bet
           @game.deal
-          #TODO anyway to make this update an all or nothing?
-          #include player bet?
-          #DEAL
-
           render json: @game, only: 
             [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
             status: 201
         else
-          #FIXME: bettor error send correct status code
+          #FIXME: bettor error message 
           render json: @game, only: 
             [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
             status: 403
         end
-
       end
 
       def hit
@@ -70,15 +58,14 @@ module Api
         if @game.player_bet != 0
           #TODO: better way to reference were hitting on player
           @game.hit "player"
-          render json: @game, only: 
-              [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
-              status: 201
         else
-          #FIXME: better error, do we need an else
-          render json: @game, only: 
-              [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
-              status: 403
+        render json: @game, only: 
+            [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
+            status: 403
         end
+        render json: @game, only: 
+            [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
+            status: 201
       end
 
       def stand

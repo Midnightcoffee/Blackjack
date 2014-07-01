@@ -298,8 +298,5 @@ describe Game do
       expect(@game.player_bet).to eq(0)
       expect(@player.total_chips).to eq(100) 
     end
-    
   end
-
-
 end
