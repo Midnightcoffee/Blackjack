@@ -72,7 +72,12 @@ class Game < ActiveRecord::Base
       self.dealer_hand += card + "|"
     end
     self.deck_sleeve = @deck_sleeve.join("|").concat("|")
-    self.save
+    if deck_sleeve == ""
+      self.create_deck
+    else
+      self.save
+    end
+
   end
 
   def stand
