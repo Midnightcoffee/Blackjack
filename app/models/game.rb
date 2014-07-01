@@ -44,10 +44,11 @@ class Game < ActiveRecord::Base
   end
 
   def place_bet player, player_bet
+    self.player_bet = player_bet
     player.total_chips -= player_bet
     #TODO anyway to make this update an all or nothing?
     player.save
-    self.player_bet = player_bet
+
     self.save
   end
 
