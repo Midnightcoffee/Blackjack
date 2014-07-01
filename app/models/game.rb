@@ -45,11 +45,10 @@ class Game < ActiveRecord::Base
 
   def place_bet player, player_bet
     self.player_bet = player_bet
-    player.total_chips -= player_bet
-    #TODO anyway to make this update an all or nothing?
-    player.save
-
-    self.save
+    if self.save
+      player.total_chips -= player_bet
+      player.save
+    end
   end
 
   #hit should be on Dealer and Player
