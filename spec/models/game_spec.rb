@@ -300,5 +300,4 @@ describe Game do
       expect(@player.total_chips).to eq(100) 
     end
   end
-
 end

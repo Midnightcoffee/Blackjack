@@ -174,7 +174,7 @@ class Game < ActiveRecord::Base
   end
   
   def player_loses player
-    #bet isn't refunded so... nothing happens?
+    #FIXME: does anything happen?
   end
 
   def player_wins player
@@ -191,7 +191,7 @@ class Game < ActiveRecord::Base
   end
 
   def create_message outcome, player_value, dealer_value
-    self.message = "#{outcome}: dealer(#{dealer_value})vs player(#{player_value}) | place bet to start new hand"
+    self.message = "#{outcome}: dealer( #{dealer_value} ) VS player( #{player_value} ) || place bet to start new hand"
   end
 
 end
