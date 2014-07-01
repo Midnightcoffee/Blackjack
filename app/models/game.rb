@@ -46,6 +46,7 @@ class Game < ActiveRecord::Base
   def place_bet player, player_bet
     self.player_bet = player_bet
     if self.save
+      #FIXME should probable tell player
       player.total_chips -= player_bet
       player.save
     end
@@ -54,17 +55,19 @@ class Game < ActiveRecord::Base
   #hit should be on Dealer and Player
   #FIXME 
   def hit who
+    #FIXME pass along players
     @player = Player.find(1)
     @deck_sleeve = self.deck_sleeve.split("|")
     card = @deck_sleeve.pop()
     if who == "player"
       self.player_hand += card + "|"
       #TODO DRY
-      if self.bust? self.player_hand
+      if self.bust?(self.player_hand)
+        #TODO move into bust?
         self.message = "Player Busted, place bet to start new hand."
+        self.game_over
         self.player_loses @player
         #TODO: because we have one player the game is over
-        self.game_over
       else
         self.save 
       end
@@ -87,11 +90,7 @@ class Game < ActiveRecord::Base
   def bust? hand
     self.hand_value(hand) > 21
   end
-  #FIXME: maybe game reset or hand_over
-  def game_over
-    self.player_bet = 0
-    self.save
-  end
+
 
   def create_deck
     deck_sleeve = []
@@ -149,6 +148,7 @@ class Game < ActiveRecord::Base
     self.find_winner
   end
 
+  #TODO: rename?
   def find_winner
     #TODO: would need to check all players
     dealer_value = self.hand_value(self.dealer_hand)
@@ -173,13 +173,18 @@ class Game < ActiveRecord::Base
     self.game_over
   end
   
+  #FIXME: these should be on player to, maybe they should read inform_winners,
+  #inform losers
   def player_loses player
-    #FIXME: does anything happen?
+    #TODO: this is to roundabout a way to reset the chips.
+    player.game_over self
   end
 
   def player_wins player
     player.total_chips += (2 * self.player_bet)
     player.save
+    player.game_over self
+    #TODO do we need this save
     self.save
   end
 
@@ -187,8 +192,17 @@ class Game < ActiveRecord::Base
     #refund
     player.total_chips += self.player_bet
     player.save
+    player.game_over self
     self.save
   end
+
+  #FIXME: maybe game reset or hand_over
+  def game_over
+    self.player_bet = 0
+    self.save
+  end
+
+
 
   def create_message outcome, player_value, dealer_value
     self.message = "#{outcome}: dealer( #{dealer_value} ) VS player( #{player_value} ) || place bet to start new hand"

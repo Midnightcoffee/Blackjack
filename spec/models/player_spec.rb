@@ -10,26 +10,9 @@ describe Player do
 
   it { should respond_to(:total_chips) }
 
-  describe "#reset_chips_to_100" do
-    context "no outstanding bets" do
-      it "when reach 0 chips" do
-        @game.player_bet = 0
-        @game.save
-        @player.total_chips = 0
-        @player.reset_chips_to_100
-        expect(@player.total_chips).to eql(100)
-      end
-    end
-
-    context "outstanding bets" do
-      it "when reach 0 chips" do
-        @game.player_bet = 50
-        @game.save
-        @player.total_chips = 0
-        @player.reset_chips_to_100
-        expect(@player.total_chips).to eql(0)
-      end
-    end
+  it "resets chips do" do
+    @player.reset_chips_to_100 
+    expect(@player.total_chips).to eql(100)
   end
 
   describe "#no_outstanding_bets" do
@@ -44,6 +27,30 @@ describe Player do
       expect(@player.no_outstanding_bets?).to eq(true)  
     end
     
+  end
+
+  describe "#broke?" do
+    it "not yet" do
+      @game.player_bet = 50
+
+      @player.total_chips = 0
+      @game.save
+      @player.save
+      expect(@player.broke?).to eq(false) 
+    end
+
+    it "has chips" do
+      @game.player_bet = 0
+      @player.total_chips = 100
+      expect(@player.broke?).to eq(false) 
+    end
+
+    it "yep.." do
+      @game.player_bet = 0
+      @player.total_chips = 0
+      expect(@player.broke?).to eq(true) 
+    end
+
   end
 
 

@@ -2,12 +2,21 @@ class Player < ActiveRecord::Base
   attr_readonly :id
   has_many :games
   validates :total_chips, presence: true
-  before_save :reset_chips_to_100
+
+
+  def broke?
+    self.total_chips  == 0 && self.no_outstanding_bets?
+  end
+
+  def game_over game
+    if self.broke?
+      self.reset_chips_to_100
+    end
+  end
 
   def reset_chips_to_100
-    if self.total_chips  == 0 && self.no_outstanding_bets?
-      self.total_chips = 100
-    end
+    self.total_chips = 100
+    self.save
   end
 
   #FIXME is this breaking LOD
