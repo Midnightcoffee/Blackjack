@@ -34,6 +34,7 @@ Blackjack.config(function ($routeProvider){
 
 // --------------- Controllers ----------------------------
 Blackjack.controller("PlayerCtrl", function($scope, playersResource){
+  //TODO level should pull from a factory
   $scope.players = playersResource.get();
   $scope.$on('update-player', function(){
     $scope.players = playersResource.get()
@@ -62,6 +63,9 @@ Blackjack.controller("GameCtrl", function($scope, $http, game, gamesResource,
       success(function (data) {
         $scope.game = data;
         $rootScope.$broadcast("update-player")
+      }).
+      error(function (data) {
+        $scope.game = data;
       })
     };
   $scope.hit = function(){
@@ -69,6 +73,9 @@ Blackjack.controller("GameCtrl", function($scope, $http, game, gamesResource,
       success(function (data) {
         $scope.game = data;
         $rootScope.$broadcast("update-player")
+      }).
+      error(function (data) {
+        $scope.game = data;
       })
     };
 
@@ -77,6 +84,9 @@ Blackjack.controller("GameCtrl", function($scope, $http, game, gamesResource,
       success(function (data) {
         $scope.game = data;
         $rootScope.$broadcast("update-player")
+      }).
+      error(function (data) {
+        $scope.game = data;
       })
     };
 });

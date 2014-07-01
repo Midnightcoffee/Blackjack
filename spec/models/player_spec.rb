@@ -9,6 +9,7 @@ describe Player do
   subject { @player }
 
   it { should respond_to(:total_chips) }
+  it { should respond_to(:level) }
 
   it "resets chips do" do
     @player.reset_chips_to_100 
@@ -65,6 +66,26 @@ describe Player do
       @player.total_chips = 20
       @bet = 30
       expect(@player.enough_chips? @bet).to equal(false)
+    end
+  end
+
+  describe "Level" do
+    it "should be 1" do
+      @player.total_chips = 100
+      @player.update_level
+      expect(@player.level).to eq(1) 
+    end
+
+    it "should be 2" do
+      @player.total_chips = 101
+      @player.update_level
+      expect(@player.level).to eq(2) 
+    end
+
+    it "should be 5" do
+      @player.total_chips = 500
+      @player.update_level
+      expect(@player.level).to eq(5) 
     end
   end
 end

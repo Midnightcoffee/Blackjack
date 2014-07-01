@@ -164,7 +164,7 @@ describe Game do
     
   # end 
 
-  describe "Create deck_sleeve" do
+  describe "#Create_deck" do
     before do
       @game.create_deck
     end
@@ -179,6 +179,7 @@ describe Game do
       #78 = 13 cards of a suit * 6
       expect(@game.deck_sleeve.scan(/Spade/).count).to eq(78) 
     end 
+
   end
 
   describe "#card_value" do

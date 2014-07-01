@@ -12,6 +12,7 @@ class Player < ActiveRecord::Base
     if self.broke?
       self.reset_chips_to_100
     end
+    self.update_level
   end
 
   def reset_chips_to_100
@@ -32,6 +33,14 @@ class Player < ActiveRecord::Base
 
   def enough_chips? player_bet
     self.total_chips >= player_bet
+  end
+
+  def update_level
+    x = (self.total_chips / 100)
+    if self.total_chips % 100 != 0
+      x += 1
+    end
+    self.level = x
   end
 
 end

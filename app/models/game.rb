@@ -44,6 +44,7 @@ class Game < ActiveRecord::Base
   end
 
   def place_bet player, player_bet
+    self.message = "You can Stand or Hit"
     self.player_bet = player_bet
     if self.save
       #FIXME should probable tell player
@@ -75,7 +76,7 @@ class Game < ActiveRecord::Base
       self.dealer_hand += card + "|"
     end
     self.deck_sleeve = @deck_sleeve.join("|").concat("|")
-    if deck_sleeve == ""
+    if self.deck_sleeve == "|"
       self.create_deck
     else
       self.save
@@ -96,13 +97,13 @@ class Game < ActiveRecord::Base
     deck_sleeve = []
     6.times do
       deck = []
-      ["Spade", "Diamond", "Heart", "club"].each do |suit|
+      ["Spade", "Diamond", "Heart", "Club"].each do |suit|
         ["2","3","4","5","6","7","8","9","10","Jack","Queen","King","Ace"].each do |rank|
           card =  suit + "," + rank
           deck << card
         end
       end
-      deck_sleeve << deck
+      deck_sleeve.concat(deck)
     end
     deck_sleeve.shuffle!
     deck_sleeve = deck_sleeve.join("|") + "|"
@@ -170,39 +171,41 @@ class Game < ActiveRecord::Base
     end
     #FIXME: maybe game reset?
     self.create_message message, player_value, dealer_value
-    self.game_over
+
   end
   
   #FIXME: these should be on player to, maybe they should read inform_winners,
   #inform losers
   def player_loses player
+    self.game_over
     #TODO: this is to roundabout a way to reset the chips.
-    player.game_over self
   end
 
+
   def player_wins player
+    #FXIME: updating should be on the player along with game_over
     player.total_chips += (2 * self.player_bet)
     player.save
-    player.game_over self
+    self.game_over
     #TODO do we need this save
-    self.save
   end
 
   def player_pushes player
     #refund
     player.total_chips += self.player_bet
     player.save
-    player.game_over self
-    self.save
+    self.game_over
+
+
+    #FIXME not using game 
+
   end
 
   #FIXME: maybe game reset or hand_over
   def game_over
     self.player_bet = 0
-    self.save
+    player.game_over self
   end
-
-
 
   def create_message outcome, player_value, dealer_value
     self.message = "#{outcome}: dealer( #{dealer_value} ) VS player( #{player_value} ) || place bet to start new hand"

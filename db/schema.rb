@@ -23,13 +23,14 @@ ActiveRecord::Schema.define(version: 20140619175043) do
     t.string   "player_hand"
     t.string   "dealer_hand"
     t.text     "deck_sleeve"
-    t.string   "message"
+    t.text     "message"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "players", force: true do |t|
     t.integer  "total_chips"
+    t.integer  "level"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

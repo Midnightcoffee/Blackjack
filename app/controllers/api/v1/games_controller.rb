@@ -27,9 +27,9 @@ module Api
 
       # -------------- custom routes --------------------------
       def levels
-        @games = Game.all
+        @games = Game.order(:id)
         # levels is able to return the ids only because there are only 3 games
-        render json: @games.all, :only => ["id", "level"], status: 200
+        render json: @games, :only => ["id", "level"], status: 200
       end
 
       def bet
@@ -41,7 +41,7 @@ module Api
           @game.clear_hands
           @game.place_bet @player, @player_bet
           @game.deal
-          @game.message = "You can Stand or Hit"
+
           @game.save
           render json: @game, only: 
             [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand, :message], 
