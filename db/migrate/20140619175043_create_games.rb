@@ -7,6 +7,7 @@ class CreateGames < ActiveRecord::Migration
       t.string :player_hand
       t.string :dealer_hand
       t.text :deck_sleeve
+      t.text :message
 
       t.timestamps
     end

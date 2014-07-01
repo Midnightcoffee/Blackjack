@@ -21,6 +21,7 @@ describe Game do
   it { should respond_to(:player_bet) }
   it { should respond_to(:dealer_hand) }
   it { should respond_to(:deck_sleeve) }
+  it { should respond_to(:message) }
 
 
   describe "Successful Bet" do
@@ -119,7 +120,7 @@ describe Game do
       @game.player_hand = "Spade,10|Heart,10|" 
       @game.hit "player"
       #TODO: mock bust
-      expect(@game.player_hand).to eq("")
+      expect(@game.player_hand).to eq("Spade,10|Heart,10|Diamond,10|")
       expect(@game.player_bet).to eq(0)
       expect(@game.deck_sleeve).to eq("Spade,9|")
     end

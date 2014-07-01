@@ -3,6 +3,7 @@ module Api
     class GamesController < ApplicationController 
 
 
+
       #TODO: refactor loading parent into private method
       #TODO: params.require(:something).permit(x,y) codeschool 4.1
 
@@ -12,7 +13,7 @@ module Api
         @games = @player.games
         #FIXME add dealer filter is there an "except"?
         render json: @games, only: 
-          [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
+          [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand, :message], 
           status: 200 
       end
 
@@ -37,15 +38,20 @@ module Api
         @player_bet = params[:player_bet]
 
         if @game.legal_bet? @player, @player_bet
+          @game.clear_hands
           @game.place_bet @player, @player_bet
           @game.deal
+          @game.message = "You can Stand or Hit"
+          @game.save
           render json: @game, only: 
-            [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
+            [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand, :message], 
             status: 201
         else
           #FIXME: bettor error message 
+          @game.message = "You can't bet right now as you already bet for this hand"
+          @game.save
           render json: @game, only: 
-            [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
+            [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand, :message], 
             status: 403
         end
       end
@@ -57,15 +63,17 @@ module Api
         @game = @player.games.find(params[:id]);
         if @game.player_bet != 0
           #TODO: better way to reference were hitting on player
+
           @game.hit "player"
+          render json: @game, only: 
+              [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand, :message], 
+              status: 201
         else
-        render json: @game, only: 
-            [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
-            status: 403
+
+          render json: @game, only: 
+              [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand, :message], 
+              status: 403
         end
-        render json: @game, only: 
-            [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
-            status: 201
       end
 
       def stand
@@ -79,12 +87,12 @@ module Api
           #TODO: better way to reference were hitting on player
           @game.stand
           render json: @game, only: 
-              [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
+              [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand, :message], 
               status: 201
         else
           #FIXME: better error, do we need an else
           render json: @game, only: 
-              [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand], 
+              [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand, :message], 
               status: 403
         end
       end

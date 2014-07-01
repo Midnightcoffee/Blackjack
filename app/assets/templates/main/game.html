@@ -2,16 +2,19 @@
 {{ game.level }}
 
 <form ng-submit="bet()">
-    <!-- send min and max as well for better UX?-->
-    
+    <!-- send min and max as well for better UX?--> 
     <input type="number" ng-model="amount" id="Amount" ng-hide="game.player_bet">
     <input type="submit" value="Bet" id="Bet" ng-hide="game.player_bet">
 </form>
 
-<button ng-click="stand()" id="Stand" ng-show="game.player_bet">Stand</button>
-<button ng-click="hit()" id="Hit" ng-show="game.player_bet">Hit</button>
 
 
-current bet - {{ game.player_bet }}
-player-hand - {{ game.player_hand }}
-dealer-hand - {{ game.dealer_hand }}
+  <button ng-click="stand()" id="Stand" ng-show="game.player_bet">Stand</button>
+  <button ng-click="hit()" id="Hit" ng-show="game.player_bet">Hit</button>
+
+<ul>
+  <li><p>current bet - {{ game.player_bet }}</p></li>
+  <li><p>player-hand - {{ game.player_hand }}</p></li>
+  <li><p>dealer-hand - {{ game.dealer_hand }}</p></li>
+  <li><p>{{ game.message }}</p></li>
+</ul>

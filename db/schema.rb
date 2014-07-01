@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20140619175043) do
     t.string   "player_hand"
     t.string   "dealer_hand"
     t.text     "deck_sleeve"
+    t.string   "message"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -61,11 +61,12 @@ class Game < ActiveRecord::Base
       self.player_hand += card + "|"
       #TODO DRY
       if self.bust? self.player_hand
+        self.message = "Player Busted, place bet to start new hand."
         self.player_loses @player
         #TODO: because we have one player the game is over
         self.game_over
-        #TODO: remove chips
-        
+      else
+        self.save 
       end
     else
       self.dealer_hand += card + "|"
@@ -81,10 +82,8 @@ class Game < ActiveRecord::Base
   def bust? hand
     self.hand_value(hand) > 21
   end
-  #FIXME: maybe game reset?
+  #FIXME: maybe game reset or hand_over
   def game_over
-    self.player_hand = ""
-    self.dealer_hand = ""
     self.player_bet = 0
     self.save
   end
@@ -151,17 +150,24 @@ class Game < ActiveRecord::Base
     player_value = self.hand_value(self.player_hand)
     #TODO: pass along player
     @player = Player.find(1)
-    if bust?(self.dealer_hand) || player_value > dealer_value
+    if bust?(self.dealer_hand) 
+      message = "Dealer busted"
       self.player_wins @player
+    elsif player_value > dealer_value
+      self.player_wins @player
+      message = "Player beats Dealer"
     elsif dealer_value > player_value
       self.player_loses @player
+      message = "Dealer beats Player"
     else
       self.player_pushes @player
+      message = "Dealer ties with Player"
     end
     #FIXME: maybe game reset?
+    self.create_message message, player_value, dealer_value
     self.game_over
   end
-
+  
   def player_loses player
     #bet isn't refunded so... nothing happens?
   end
@@ -169,11 +175,18 @@ class Game < ActiveRecord::Base
   def player_wins player
     player.total_chips += (2 * self.player_bet)
     player.save
+    self.save
   end
 
   def player_pushes player
     #refund
     player.total_chips += self.player_bet
     player.save
+    self.save
   end
+
+  def create_message outcome, player_value, dealer_value
+    self.message = "#{outcome}: dealer(#{dealer_value})vs player(#{player_value}) | place bet to start new hand"
+  end
+
 end
