@@ -4,7 +4,7 @@ module Api
 
       def show
         @player = Player.first
-        render json: {'total_chips' => @player.total_chips}, status: 200
+        render json: @player, status: 200
       end
     end
   end

@@ -37,17 +37,16 @@ module Api
         @game = @player.games.find(params[:id]);
         @player_bet = params[:player_bet]
 
-        if @game.legal_bet? @player, @player_bet
+        if @game.legal_bet?(@player, @player_bet)
           @game.clear_hands
           @game.place_bet @player, @player_bet
           @game.deal
 
-          @game.save
           render json: @game, only: 
             [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand, :message], 
             status: 201
         else
-          #FIXME: bettor error message 
+          #FIXME: bettor error message  move message to different place
           @game.message = "You can't bet right now as you already bet for this hand"
           @game.save
           render json: @game, only: 

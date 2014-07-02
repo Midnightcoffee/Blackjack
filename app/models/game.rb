@@ -177,6 +177,7 @@ class Game < ActiveRecord::Base
   #FIXME: these should be on player to, maybe they should read inform_winners,
   #inform losers
   def player_loses player
+    self.player_bet = 0
     self.game_over
     #TODO: this is to roundabout a way to reset the chips.
   end
@@ -185,7 +186,9 @@ class Game < ActiveRecord::Base
   def player_wins player
     #FXIME: updating should be on the player along with game_over
     player.total_chips += (2 * self.player_bet)
+
     player.save
+    self.player_bet = 0
     self.game_over
     #TODO do we need this save
   end
@@ -196,14 +199,12 @@ class Game < ActiveRecord::Base
     player.save
     self.game_over
 
-
-    #FIXME not using game 
-
   end
 
   #FIXME: maybe game reset or hand_over
   def game_over
     self.player_bet = 0
+    self.save
     player.game_over self
   end
 

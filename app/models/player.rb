@@ -41,6 +41,7 @@ class Player < ActiveRecord::Base
       x += 1
     end
     self.level = x
+    self.save
   end
 
 end
