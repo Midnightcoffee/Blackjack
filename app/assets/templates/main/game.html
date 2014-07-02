@@ -1,6 +1,8 @@
 <!-- TODO: better styling -->
 {{ game.level }}
 
+<a href="/">Lobby</a>
+
 <form ng-submit="bet()">
     <!-- send min and max as well for better UX?--> 
     <input type="number" ng-model="amount" id="Amount" ng-hide="game.player_bet">

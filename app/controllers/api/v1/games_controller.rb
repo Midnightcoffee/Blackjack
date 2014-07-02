@@ -12,9 +12,7 @@ module Api
         @player = Player.find(params[:player_id])
         @games = @player.games
         #FIXME add dealer filter is there an "except"?
-        render json: @games, only: 
-          [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand, :message], 
-          status: 200 
+        render json: @games, except: Game.hidden, status: 200 
       end
 
       def show
@@ -22,7 +20,7 @@ module Api
         # @game = Game.where("player_id = ? AND id = ?", params[:player_id], params[:id])
         # FIXME how to do query with player? The unexpectedly gave an array
         @game = Game.find(params[:id])
-        render json: @game, status: 200
+        render json: @game, except: Game.hidden, status: 200
       end
 
       # -------------- custom routes --------------------------
@@ -42,16 +40,12 @@ module Api
           @game.place_bet @player, @player_bet
           @game.deal
 
-          render json: @game, only: 
-            [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand, :message], 
-            status: 201
+          render json: @game, except: Game.hidden, status: 201
         else
           #FIXME: bettor error message  move message to different place
           @game.message = "You can't bet right now as you already bet for this hand"
           @game.save
-          render json: @game, only: 
-            [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand, :message], 
-            status: 403
+          render json: @game, except: Game.hidden, status: 403
         end
       end
 
@@ -62,16 +56,10 @@ module Api
         @game = @player.games.find(params[:id]);
         if @game.player_bet != 0
           #TODO: better way to reference were hitting on player
-
           @game.hit "player"
-          render json: @game, only: 
-              [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand, :message], 
-              status: 201
+          render json: @game, except: Game.hidden, status: 201
         else
-
-          render json: @game, only: 
-              [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand, :message], 
-              status: 403
+          render json: @game, except: Game.hidden, status: 403
         end
       end
 
@@ -85,14 +73,10 @@ module Api
 
           #TODO: better way to reference were hitting on player
           @game.stand
-          render json: @game, only: 
-              [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand, :message], 
-              status: 201
+          render json: @game, except: Game.hidden, status: 201
         else
           #FIXME: better error, do we need an else
-          render json: @game, only: 
-              [:id, :player_id, :level, :player_bet, :player_hand, :dealer_hand, :message], 
-              status: 403
+          render json: @game, except: Game.hidden, status: 403
         end
       end
     end

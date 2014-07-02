@@ -3,14 +3,20 @@ class Game < ActiveRecord::Base
  
   #TODO separate out class methods and instance methods
   #FIXME: should these be symbols? Whats the advantage or disadvantage?
+  @@hidden = [:deck_sleeve, :created_at, :updated_at]
   @@levels = ["Beginner", "Intermediate", "High Roller"]
   @@bet_range = {
              "Beginner" => {min: 1, max: 50},
              "Intermediate" => {min: 50, max: 100}, 
              "High Roller" => {min: 100, max: Float::INFINITY}
               }
+  #FIXME class read method
   def self.levels
     @@levels
+  end
+
+  def self.hidden
+    @@hidden
   end
     
   #FIXME is there a way to get the game_id from the instance

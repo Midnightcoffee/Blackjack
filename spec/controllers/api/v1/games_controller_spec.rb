@@ -5,8 +5,8 @@ describe Api::V1::GamesController do
 
   #FIXME: use a parent folder to load in values for all controllers
   before do
-    @player = FactoryGirl.create(:player, total_chips: 100)
-    FactoryGirl.create(:game, player_id: @player.id, level: "Beginner") 
+    @player = FactoryGirl.create(:player, total_chips: 100, id: 1)
+    @game = FactoryGirl.create(:game, player_id: @player.id, level: "Beginner") 
     FactoryGirl.create(:game, player_id: @player.id, level: "Intermediate") 
     FactoryGirl.create(:game, player_id: @player.id, level: "High Roller") 
   end
@@ -31,6 +31,30 @@ describe Api::V1::GamesController do
       get :index, :player_id => @player.id
       games_response = json(response.body)
       expect(games_response[0][:level]).to eql("Beginner")
+    end
+
+  end
+
+  describe "Get 'show'" do
+    it "responds with success" do
+      #TODO: make dynamic, put index in a before do block
+      get :show, :player_id => @player.id, :id => @game.id
+      expect(response).to be_success
+    end
+
+    it "Beginner" do
+      #TODO: make dynamic
+      get :show, :player_id => @player.id, :id => @game.id
+      game_response = json(response.body)
+      expect(game_response[:level]).to eql("Beginner")
+    end
+
+    #TODO: other levels
+    it "Won't contain deck_sleeve" do
+      #TODO: make dynamic
+      get :show, :player_id => @player.id, :id => @game.id
+      game_response = json(response.body)
+      expect(game_response[:deck_sleeve]).to eql(nil)
     end
 
   end
