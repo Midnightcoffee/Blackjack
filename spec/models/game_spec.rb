@@ -185,10 +185,10 @@ describe Game do
     
   end
 
-  describe "#hit" do
+  describe "#player_hit" do
     it "successful" do
       @game.deck_sleeve = "Diamond,Ace|Heart,Ace|Heart,10|Spade,Ace|Spade,10"
-      @game.hit "player"
+      @game.player_hit
       #TODO: mock bust
       expect(@game.player_hand).to eq("Spade,10|")
       expect(@game.deck_sleeve).to eq("Diamond,Ace|Heart,Ace|Heart,10|Spade,Ace|")
@@ -197,7 +197,7 @@ describe Game do
     it "#busts" do
       @game.deck_sleeve = "Spade,9|Diamond,10|"
       @game.player_hand = "Spade,10|Heart,10|" 
-      @game.hit "player"
+      @game.player_hit
       #TODO: mock bust
       expect(@game.player_hand).to eq("Spade,10|Heart,10|Diamond,10|")
       expect(@game.player_bet).to eq(0)

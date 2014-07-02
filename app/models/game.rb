@@ -1,8 +1,6 @@
 class Game < ActiveRecord::Base
   belongs_to :player
  
-  #TODO separate out class methods and instance methods
-  #FIXME: should these be symbols? Whats the advantage or disadvantage?
   @@hidden = [:deck_sleeve, :created_at, :updated_at]
   @@levels = ["Beginner", "Intermediate", "High Roller"]
 
@@ -20,7 +18,6 @@ class Game < ActiveRecord::Base
   def within_range? player_bet
     player_bet >= self.min_bet && player_bet <= (self.max_bet || Float::INFINITY)
   end
-
 
   #FIXME find a way to represent specific games with specific players
   def deal
@@ -54,43 +51,38 @@ class Game < ActiveRecord::Base
     end
   end
 
+  def get_card
+    @deck_sleeve = self.deck_sleeve.split("|") 
+    card = @deck_sleeve.pop() 
+  end
+
+  def deck_clean_up
+    self.deck_sleeve = @deck_sleeve.join("|").concat("|")
+    if self.deck_sleeve == "|"
+      self.create_deck
+    else
+      self.save
+    end
+  end
+
   def player_hit
-    @deck_sleeve = self.deck_sleeve.split("|") # deckprepare 
-    card = @deck_sleeve.pop()
+    card = self.get_card
     self.player_hand += card + "|"
-    #TODO DRY
     if self.bust?(self.player_hand)
-      #TODO move into bust?
       self.message = "Player Busted, place bet to start new hand."
-      self.game_over
       self.player_loses @player
-      #TODO: because we have one player the game is over
     else
       self.save 
     end
-    self.deck_sleeve = @deck_sleeve.join("|").concat("|")
-    if self.deck_sleeve == "|"
-      self.create_deck
-    else
-      self.save
-    end
+    self.deck_clean_up
   end
 
   def dealer_hit
-    @deck_sleeve = self.deck_sleeve.split("|") # deckprepare 
-    card = @deck_sleeve.pop()
-      self.dealer_hand += card + "|"
-    self.deck_sleeve = @deck_sleeve.join("|").concat("|")
-    if self.deck_sleeve == "|"
-      self.create_deck
-    else
-      self.save
-    end
-
+    card = self.get_card
+    self.dealer_hand += card + "|"
+    self.deck_clean_up
+    self.save
   end
-
-  
-
 
   def stand
     self.dealer_play
@@ -100,7 +92,6 @@ class Game < ActiveRecord::Base
     self.hand_value(hand) > 21
   end
 
-  # own class along with give card.
   def create_deck
     deck_sleeve = []
     6.times do
@@ -149,75 +140,54 @@ class Game < ActiveRecord::Base
   end
 
   def dealer_play
-    #soft  16
     while self.hand_value(self.dealer_hand) <= 16 do
       self.dealer_hit
     end
-    #TODO: pause state between game over and next game
     self.find_winner
   end
 
   #TODO: rename?
   def find_winner
-    #TODO: would need to check all players
     dealer_value = self.hand_value(self.dealer_hand)
     player_value = self.hand_value(self.player_hand)
     #TODO: pass along player
     @player = Player.find(1)
     if bust?(self.dealer_hand) 
-      message = "Dealer busted"
       self.player_wins @player
+      @outcome_msg = "Dealer Busted"
     elsif player_value > dealer_value
-      self.player_wins @player
-      message = "Player beats Dealer"
-    elsif dealer_value > player_value
+      self.player_wins @player 
+      @outcome_msg = "Player beats Dealer"
+    elsif player_value < dealer_value
       self.player_loses @player
-      message = "Dealer beats Player"
+        @outcome_msg = "Dealer beats Player"
     else
       self.player_pushes @player
-      message = "Dealer ties with Player"
+      @outcome_msg = "Dealer ties with Player"
     end
-    #FIXME: maybe game reset?
-    self.create_message message, player_value, dealer_value
-
+    self.game_over @outcome_msg, player_value, dealer_value
   end
   
-  #FIXME: these should be on player to, maybe they should read inform_winners,
-  #inform losers
   def player_loses player
     self.player_bet = 0
-    self.game_over
-    #TODO: this is to roundabout a way to reset the chips.
   end
 
-
   def player_wins player
-    #FXIME: updating should be on the player along with game_over
     player.total_chips += (2 * self.player_bet)
-
-    player.save
-    self.player_bet = 0
-    self.game_over
-    #TODO do we need this save
   end
 
   def player_pushes player
-    #refund
     player.total_chips += self.player_bet
-    player.save
-    self.game_over
-
   end
 
-  #FIXME: maybe game reset or hand_over
-  def game_over
+  def game_over outcome_msg
+    self.create_message outcome_msg, player_value, dealer_value
     self.player_bet = 0
     self.save
-    player.game_over self
+    player.game_over
   end
 
-  def create_message outcome, player_value, dealer_value
-    self.message = "#{outcome}: dealer( #{dealer_value} ) VS player( #{player_value} ) || place bet to start new hand"
+  def create_message outcome_msg, player_value, dealer_value
+    self.message = "#{outcome_msg}: dealer( #{dealer_value} ) VS player( #{player_value} ) || place bet to start new hand"
   end
-
 end

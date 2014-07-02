@@ -8,7 +8,8 @@ class Player < ActiveRecord::Base
     self.total_chips  == 0 && self.no_outstanding_bets?
   end
 
-  def game_over game
+  def game_over
+    self.save
     if self.broke?
       self.reset_chips_to_100
     end
@@ -20,7 +21,6 @@ class Player < ActiveRecord::Base
     self.save
   end
 
-  #FIXME is this breaking LOD
   def no_outstanding_bets?
     active_bet = true
     self.games.each do |game|
