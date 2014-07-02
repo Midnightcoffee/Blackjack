@@ -5,9 +5,22 @@
   <%= stylesheet_link_tag    "application", media: "all"  %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
-  <div ng-controller="PlayerCtrl"> 
+  <div ng-controller="PlayerCtrl" class="player-stats-widget"> 
     <p>Total Chips: {{players.total_chips}}</p>
     <p>Level: {{ players.level }}</p>
+    <pre>
+         .======. You!
+        /((((((()\
+       ((///    \))
+      ((/`__   __())
+      /`-{_o}^{o_}'\
+      \_     _\   _/
+        \  .__,  / 
+         \  `-' / 
+         /`----'\
+    .-"""`------'`""-.
+ 
+    </pre>
   </div>
 
 

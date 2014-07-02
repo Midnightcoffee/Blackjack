@@ -11,3 +11,8 @@
  *= require_self
  *= require_tree .
  */
+
+.player-stats-widget {
+
+  float: right;
+}
