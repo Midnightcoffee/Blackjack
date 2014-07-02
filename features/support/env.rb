@@ -47,8 +47,10 @@ end
 
 Before do
   DatabaseCleaner.clean
-  @player = FactoryGirl.create(:player)
-  Game.levels.each { |level| FactoryGirl.create(:game, level: level, player_id: @player.id) }
+  @player = FactoryGirl.create(:player, id: 1, total_chips: 100)
+  FactoryGirl.create(:game, level: "Beginner", min_bet: 1, max_bet: 50, player_id: @player.id)
+  FactoryGirl.create(:game, level: "Intermediate", min_bet: 50, max_bet: 100, player_id: @player.id)
+  FactoryGirl.create(:game, level: "High Roller", min_bet: 100, max_bet: 999999999, player_id: @player.id) 
 end
 
 

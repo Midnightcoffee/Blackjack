@@ -25,6 +25,7 @@ class Game < ActiveRecord::Base
     player_bet >= @@bet_range[self.level][:min] && player_bet <= @@bet_range[self.level][:max]
   end
 
+
   #FIXME find a way to represent specific games with specific players
   def deal 
     2.times do

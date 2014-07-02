@@ -24,6 +24,8 @@ ActiveRecord::Schema.define(version: 20140619175043) do
     t.string   "dealer_hand"
     t.text     "deck_sleeve"
     t.text     "message"
+    t.integer  "min_bet"
+    t.integer  "max_bet"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -8,6 +8,8 @@ class CreateGames < ActiveRecord::Migration
       t.string :dealer_hand
       t.text :deck_sleeve
       t.text :message
+      t.integer :min_bet
+      t.integer :max_bet
 
       t.timestamps
     end

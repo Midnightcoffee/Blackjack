@@ -21,6 +21,8 @@ describe Game do
   it { should respond_to(:player_bet) }
   it { should respond_to(:dealer_hand) }
   it { should respond_to(:deck_sleeve) }
+  it { should respond_to(:min_bet) }
+  it { should respond_to(:max_bet) }
   it { should respond_to(:message) }
 
 
