@@ -26,68 +26,145 @@ describe Game do
   it { should respond_to(:message) }
 
 
-  describe "Successful Bet" do
-    #FIXME wording...
-    it "Beginner" do
-      #FIXME how to reference subject?
-      @game.level = "Beginner"
-      expect(@game.within_range?(20)).to equal(true)
-    end
+  describe "#within_range?" do
+    context "High Roller" do
+      #FIXME should be using let
+      before do
+        @game.id = 3
+        @game.level = "High Roller"
+        @game.min_bet = 100
+        @game.max_bet = nil
 
-    it "Intermediate" do
-      #FIXME how to reference subject?
-      @game.level = "Intermediate"
-      expect(@game.within_range?(75)).to equal(true)
-    end
-
-    it "High Roller" do
-      #FIXME how to reference subject?
-      @game.level = "High Roller"
-      expect(@game.within_range?(10000)).to equal(true)
-    end
-  end
-
-  describe "UnSuccessful Bet" do
-    describe "Beginner" do
-    #FIXME wording...
-      it "should be to high" do
-        @game.level = "Beginner"
-        expect(@game.within_range?(51)).to equal(false)
       end
 
-      it "should be to low" do
-        @game.level = "Beginner"
-        expect(@game.within_range?(0)).to equal(false)
+      it "is never to high" do
+        @bet = 10000000
+        expect(@game.within_range? @bet).to be true 
       end
-    end
 
-    describe "Intermediate" do
-    #FIXME wording...
-      it "should be to high" do
+      it "too low" do
+        @bet = 99
+        expect(@game.within_range? @bet).to be false
+      end
+      
+    end
+    context "Intermediate" do
+      before do
+        @game.id = 2
         @game.level = "Intermediate"
-        expect(@game.within_range?(49)).to equal(false)
+        @game.min_bet = 50
+        @game.max_bet = 100
       end
 
-      it "should be to low" do
-      @game.level = "Intermediate"
-        expect(@game.within_range?(101)).to equal(false)
+      it "too high" do
+        @bet = 10000000
+        expect(@game.within_range? @bet).to be false
       end
+
+      it "too low" do
+        @bet = 49
+        expect(@game.within_range? @bet).to be false
+      end
+
+      it "acceptable" do
+        @bet = 51
+        expect(@game.within_range? @bet).to be true
+      end
+      
     end
-
-    describe "High Roller" do
-    #FIXME wording...
-
-      it "should be to low" do
-        @game.level = "High Roller"
-        expect(@game.within_range?(99)).to equal(false)
+    context "Beginner" do
+      before do
+        @game.id = 1
+        @game.level = "Beginner"
+        @game.min_bet = 1
+        @game.max_bet = 50
       end
 
-      it "should never to be to high" do
-        @game.level = "High Roller"
-        expect(@game.within_range?(1000000000)).to equal(true)
+      it "too high" do
+        @bet = 51
+        expect(@game.within_range? @bet).to be false
       end
+
+      it "too low" do
+        @bet = 0
+        expect(@game.within_range? @bet).to be false
+      end
+
+      it "acceptable" do
+        @bet = 1
+        expect(@game.within_range? @bet).to be true
+      end
+      
     end
+      
   end
+
+  
+  # describe "Successful Bet" do
+  #   #FIXME wording...
+  #   it "Beginner" do
+  #     #FIXME how to reference subject?
+  #     @game.level = "Beginner"
+  #     expect(@game.within_range?(20)).to equal(true)
+  #   end
+
+  #   it "Intermediate" do
+  #     #FIXME how to reference subject?
+  #     @game.level = "Intermediate"
+  #     expect(@game.within_range?(75)).to equal(true)
+  #   end
+
+  #   it "High Roller" do
+  #     #FIXME how to reference subject?
+  #     @game.level = "High Roller"
+  #     expect(@game.within_range?(10000)).to equal(true)
+  #   end
+  # end
+
+  # describe "UnSuccessful Bet" do
+  #   describe "Beginner" do
+  #   #FIXME wording...
+  #     it "should be to high" do
+  #       @game.level = "Beginner"
+  #       @game.
+  #       expect(@game.within_range?(51)).to equal(false)
+  #     end
+
+  #     it "should be to low" do
+  #       @game.level = "Beginner"
+  #       expect(@game.within_range?(0)).to equal(false)
+  #     end
+  #   end
+
+  #   describe "Intermediate" do
+  #   #FIXME wording...
+  #     it "should be to high" do
+  #       @game.level = "Intermediate"
+  #       expect(@game.within_range?(49)).to equal(false)
+  #     end
+
+  #     it "should be to low" do
+  #     @game.level = "Intermediate"
+  #       expect(@game.within_range?(101)).to equal(false)
+  #     end
+  #   end
+
+  #   describe "High Roller" do
+  #     before do
+  #       @game.level = "High Roller"
+  #     end
+
+  #     it "should be to low" do
+  #       @game.level = "High Roller"
+  #       expect(@game.within_range?(99)).to equal(false)
+  #     end
+
+  #     it "should never to be to high" do
+  #       @game.level = "High Roller"
+  #       expect(@game.within_range?(1000000000)).to equal(true)
+  #     end
+    # end
+  # end
 
   describe "#Deal" do
     before do
@@ -128,43 +205,6 @@ describe Game do
     end
     
   end
-
-
-  #TODO hit when game not in play
-
-  #TODO: do i even need stand method?
-  # describe "#stand" do
-  #   before do 
-  #   end
-  #   it "player wins" do 
-  #     @game.player_hand = "Spade,10|Spade,Ace|" 
-  #     @game.dealer_hand = "Heart,Ace|Heart,9|" 
-  #     @game.player_bet = 30
-  #     @player.total_chips = 70
-  #     @game.save
-  #     @player.save
-  #     #TODO:stand only makes sense like this with one player
-  #     @game.stand
-  #     @player.reload
-  #     expect(@player.total_chips).to eq(130)
-
-  #   end
-
-  #   it "player loses" do 
-  #     #FIXME: put in before block
-  #     @game.player_hand = "Spade,9|Spade,Ace|" 
-  #     @game.dealer_hand = "Heart,Ace|Heart,10|" 
-  #     @game.player_bet = 30
-  #     @player.total_chips = 70
-  #     @game.save
-  #     @player.save
-  #     #TODO: hold only makes sense like this with one player
-  #     @game.stand "player"
-  #     @player.reload
-  #     expect(@player.total_chips).to eq(70)
-  #   end
-    
-  # end 
 
   describe "#Create_deck" do
     before do
@@ -225,24 +265,6 @@ describe Game do
     end
     
   end
-
-  #TODO: in between game over and new game state needed
-  # describe "dealer_play" do
-  #   it "hits on 16" do
-  #     @game.deck_sleeve = "Heart,8|"
-  #     @game.dealer_hand = "Heart,10|Heart,6|"
-  #     @game.dealer_play
-  #     expect(@game.dealer_hand).to eq("Heart,10|Heart,6|Heart,8|")
-  #   end
-
-  #   it "stays on 17" do
-  #     @game.deck_sleeve = "Heart,8|"
-  #     @game.dealer_hand = "Heart,10|Heart,7|"
-  #     @game.dealer_play
-  #     expect(@game.dealer_hand).to eq("Heart,10|Heart,7|")
-  #   end
-
-  # end
 
   describe "#find_winner" do
 

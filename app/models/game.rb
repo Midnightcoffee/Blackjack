@@ -5,12 +5,8 @@ class Game < ActiveRecord::Base
   #FIXME: should these be symbols? Whats the advantage or disadvantage?
   @@hidden = [:deck_sleeve, :created_at, :updated_at]
   @@levels = ["Beginner", "Intermediate", "High Roller"]
-  @@bet_range = {
-             "Beginner" => {min: 1, max: 50},
-             "Intermediate" => {min: 50, max: 100}, 
-             "High Roller" => {min: 100, max: Float::INFINITY}
-              }
-  #FIXME class read method
+
+  # ------------------------------- Class variables -----------------------
   def self.levels
     @@levels
   end
@@ -18,11 +14,11 @@ class Game < ActiveRecord::Base
   def self.hidden
     @@hidden
   end
+
+  # ----------------------------- instance methods -------------------
     
-  #FIXME is there a way to get the game_id from the instance
-  #FIXME maybe this shouldn't be self.method
   def within_range? player_bet
-    player_bet >= @@bet_range[self.level][:min] && player_bet <= @@bet_range[self.level][:max]
+    player_bet >= self.min_bet && player_bet <= (self.max_bet || Float::INFINITY)
   end
 
 

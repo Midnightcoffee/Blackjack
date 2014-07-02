@@ -1,4 +1,9 @@
 <div ng-repeat="game in games" class="app-game-level-links">
   <a href="/#games/{{game.id}}" >{{game.level}}</a>
+  <ul>
+    <li>current bet: {{ game.player_bet }}</li>
+    <li>min: {{game.min_bet}}</li>
+    <li>max: {{game.max_bet}}</li>
+  </ul>
 </div>
-<p></p>
+
