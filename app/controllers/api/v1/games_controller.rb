@@ -43,7 +43,7 @@ module Api
         @game = @player.games.find(params[:id]);
         if @game.player_bet != 0
           #TODO: better way to reference were hitting on player
-          @game.hit "player"
+          @game.hit @player
           render json: @game, except: Game.hidden, status: 201
         else
           render json: @game, except: Game.hidden, status: 403

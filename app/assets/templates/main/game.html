@@ -1,22 +1,70 @@
-<!-- TODO: better styling -->
-{{ game.level }}
+<div class="containter">
+  <div class="row">
 
-<a href="/">Lobby</a>
+    <div class="text-center">
+      <div class="col-md-6"> 
+        <h1>{{ game.level }}</h1>
+      </div>
+    </div>
 
-<form ng-submit="bet()">
-    <!-- send min and max as well for better UX?--> 
-    <input type="number" ng-model="amount" id="Amount" ng-hide="game.player_bet">
-    <input type="submit" value="Bet" id="Bet" ng-hide="game.player_bet">
-</form>
+    <div class="text-center">
+      <div class="col-md-6"> 
+
+        <p>
+          <a href="/">
+            <h1>Lobby</h1>
+          </a>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="containter">
+  <div class="row">
+    <div class="text-center">
+      <div class="col-md-12"> 
+        <ul class="list-unstyled">
+          <li><p>current bet - {{ game.player_bet }}</p></li>
+          <li><p>player-hand - {{ game.player_hand }}</p></li>
+          <li><p>dealer-hand - {{ game.dealer_hand }}</p></li>
+          <li><p>{{ game.message }}</p></li>
+        </ul>
+      <div> 
+    </div>
+  </div>
+</div>
+
+<div class="containter">
+  <div class="row">
+    <div class="text-center">
+      <div class="col-md-4 col-md-offset-4"> 
+        <div class="form-group">
+          <form ng-submit="bet()">
+              <input type="number" ng-model="amount" id="Amount" ng-hide="game.player_bet" class="form-control">
+              <input type="submit" value="Bet" id="Bet" ng-hide="game.player_bet" class="btn btn-default">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="containter">
+  <div class="row">
+    <div class="text-center">
+      <div class="col-lg-6"> 
+        <button ng-click="stand()" id="Stand" ng-show="game.player_bet">Stand</button>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <div class="col-lg-6"> 
+        <button ng-click="hit()" id="Hit" ng-show="game.player_bet">Hit</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
-
-  <button ng-click="stand()" id="Stand" ng-show="game.player_bet">Stand</button>
-  <button ng-click="hit()" id="Hit" ng-show="game.player_bet">Hit</button>
-
-<ul>
-  <li><p>current bet - {{ game.player_bet }}</p></li>
-  <li><p>player-hand - {{ game.player_hand }}</p></li>
-  <li><p>dealer-hand - {{ game.dealer_hand }}</p></li>
-  <li><p>{{ game.message }}</p></li>
-</ul>

@@ -1,9 +1,16 @@
-<div ng-repeat="game in games" class="text-center">
-  <a href="/#games/{{game.id}}" >{{game.level}}</a>
-  <ul class="list-unstyled">
-    <li>current bet: {{ game.player_bet }}</li>
-    <li>min: {{game.min_bet}}</li>
-    <li>max: {{game.max_bet || "no limit!" }}</li>
-  </ul>
+
+<div class ="containter">
+  <div class="row">
+    <div ng-repeat="game in games" class="text-center">
+      <div class="col-lg-4">
+        <a href="/#games/{{game.id}}" >{{game.level}}</a>
+        <ul class="list-unstyled">
+          <li>current bet: {{ game.player_bet }}</li>
+          <li>min: {{game.min_bet}}</li>
+          <li>max: {{game.max_bet || "no limit!" }}</li>
+        </ul>
+      <div>
+    </div>
+  </div>
 </div>
 

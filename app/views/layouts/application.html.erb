@@ -5,22 +5,25 @@
   <%= stylesheet_link_tag    "application", media: "all"  %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
-  <div ng-controller="PlayerCtrl" class="text-left"> 
-    <p>Total Chips: {{players.total_chips}}</p>
-    <p>Level: {{ players.level }}</p>
-    <pre>
-         .======. You!
-        /((((((()\
-       ((///    \))
-      ((/`__   __())
-      /`-{_o}^{o_}'\
-      \_     _\   _/
-        \  .__,  / 
-         \  `-' / 
-         /`----'\
-    .-"""`------'`""-.
- 
-    </pre>
+  <div class="container">
+    <div class="row">
+      <div ng-controller="PlayerCtrl"> 
+        <p>Total Chips: {{players.total_chips}}</p>
+        <p>Level: {{ players.level }}</p>
+        <pre>
+            .======. 
+            /((((((()\
+          ((///    \))
+          ((/`__   __())
+          /`-{_o}^{o_}'\    
+          \_     _\   _/
+            \  .__,  / 
+            \  `-' / 
+            /`----'\
+        .-"""`------'`""-. 
+        </pre>
+      </div>
+    </div>
   </div>
 
 

@@ -23,7 +23,7 @@ class Game < ActiveRecord::Base
 
 
   #FIXME find a way to represent specific games with specific players
-  def deal 
+  def deal
     2.times do
       self.hit "player"
       #TODO: dealer?
@@ -60,8 +60,8 @@ class Game < ActiveRecord::Base
   #FIXME 
   def hit who
     #FIXME pass along players
-    @player = Player.find(1)
-    @deck_sleeve = self.deck_sleeve.split("|")
+    @player = Player.find(1) # passed along
+    @deck_sleeve = self.deck_sleeve.split("|") # deckprepare 
     card = @deck_sleeve.pop()
     if who == "player"
       self.player_hand += card + "|"
@@ -75,6 +75,7 @@ class Game < ActiveRecord::Base
       else
         self.save 
       end
+    # implied game
     else
       self.dealer_hand += card + "|"
     end
@@ -95,7 +96,7 @@ class Game < ActiveRecord::Base
     self.hand_value(hand) > 21
   end
 
-
+  # own class along with give card.
   def create_deck
     deck_sleeve = []
     6.times do
