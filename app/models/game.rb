@@ -25,13 +25,11 @@ class Game < ActiveRecord::Base
   #FIXME find a way to represent specific games with specific players
   def deal
     2.times do
-      self.hit "player"
+      self.player_hit
       #TODO: dealer?
     end
-    # if we had multiple players it would like players.each do |player|
-    # 1 times makes life easier and it doesn't matter when dealer gets his cards
     1.times do
-      self.hit "game"
+      self.dealer_hit
       #TODO: dealer?
     end
   end
@@ -56,29 +54,32 @@ class Game < ActiveRecord::Base
     end
   end
 
-  #hit should be on Dealer and Player
-  #FIXME 
-  def hit who
-    #FIXME pass along players
-    @player = Player.find(1) # passed along
+  def player_hit
     @deck_sleeve = self.deck_sleeve.split("|") # deckprepare 
     card = @deck_sleeve.pop()
-    if who == "player"
-      self.player_hand += card + "|"
-      #TODO DRY
-      if self.bust?(self.player_hand)
-        #TODO move into bust?
-        self.message = "Player Busted, place bet to start new hand."
-        self.game_over
-        self.player_loses @player
-        #TODO: because we have one player the game is over
-      else
-        self.save 
-      end
-    # implied game
+    self.player_hand += card + "|"
+    #TODO DRY
+    if self.bust?(self.player_hand)
+      #TODO move into bust?
+      self.message = "Player Busted, place bet to start new hand."
+      self.game_over
+      self.player_loses @player
+      #TODO: because we have one player the game is over
     else
-      self.dealer_hand += card + "|"
+      self.save 
     end
+    self.deck_sleeve = @deck_sleeve.join("|").concat("|")
+    if self.deck_sleeve == "|"
+      self.create_deck
+    else
+      self.save
+    end
+  end
+
+  def dealer_hit
+    @deck_sleeve = self.deck_sleeve.split("|") # deckprepare 
+    card = @deck_sleeve.pop()
+      self.dealer_hand += card + "|"
     self.deck_sleeve = @deck_sleeve.join("|").concat("|")
     if self.deck_sleeve == "|"
       self.create_deck
@@ -87,6 +88,9 @@ class Game < ActiveRecord::Base
     end
 
   end
+
+  
+
 
   def stand
     self.dealer_play
@@ -147,7 +151,7 @@ class Game < ActiveRecord::Base
   def dealer_play
     #soft  16
     while self.hand_value(self.dealer_hand) <= 16 do
-      self.hit "game"
+      self.dealer_hit
     end
     #TODO: pause state between game over and next game
     self.find_winner
