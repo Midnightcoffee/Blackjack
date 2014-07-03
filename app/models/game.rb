@@ -14,20 +14,16 @@ class Game < ActiveRecord::Base
   end
 
   # ----------------------------- instance methods -------------------
-    
   def within_range? player_bet
     player_bet >= self.min_bet && player_bet <= (self.max_bet || Float::INFINITY)
   end
 
-  #FIXME find a way to represent specific games with specific players
   def deal
     2.times do
       self.player_hit
-      #TODO: dealer?
     end
     1.times do
       self.dealer_hit
-      #TODO: dealer?
     end
   end
 
@@ -43,7 +39,7 @@ class Game < ActiveRecord::Base
       self.message = "Not enough chips"
       @legal = false
     elsif not self.within_range?(player_bet)
-      self.message = "Bet not in range #{self.min_bet} - #{self.max_bet}"
+      self.message = "Bet not in #{self.level} range of #{self.min_bet} to #{self.max_bet}."
       @legal = false
     elsif not self.player_bet == 0
       self.message = "Already bet"
@@ -83,7 +79,6 @@ class Game < ActiveRecord::Base
       self.message = "Player Busted with #{player_value}"
       self.game_over
     else
-      #FIXME should probable tell player
       self.save 
     end
     self.deck_clean_up
@@ -158,12 +153,11 @@ class Game < ActiveRecord::Base
     self.find_winner
   end
 
-  #TODO: rename?
   def find_winner
+    @player = Player.find(self.player_id)
     dealer_value = self.hand_value(self.dealer_hand)
     player_value = self.hand_value(self.player_hand)
-    #TODO: pass along player
-    @player = Player.find(1)
+
     if bust?(dealer_value) 
       self.player_wins @player
       self.message = "Dealer Busted with #{dealer_value}"
