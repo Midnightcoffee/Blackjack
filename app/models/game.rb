@@ -180,7 +180,7 @@ class Game < ActiveRecord::Base
     player.total_chips += self.player_bet
   end
 
-  def game_over outcome_msg
+  def game_over outcome_msg, player_value, dealer_value
     self.create_message outcome_msg, player_value, dealer_value
     self.player_bet = 0
     self.save
