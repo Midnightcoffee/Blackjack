@@ -32,7 +32,6 @@ module Api
           render json: @game, except: Game.hidden, status: 201
         else
           #FIXME: bettor error message  move message to centralized place
-          @game.message = "Bet wasn't placed"
           @game.save
           render json: @game, except: Game.hidden, status: 403
         end
