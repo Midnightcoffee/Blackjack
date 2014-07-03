@@ -189,12 +189,12 @@ describe Game do
     it "successful" do
       @game.deck_sleeve = "Diamond,Ace|Heart,Ace|Heart,10|Spade,Ace|Spade,10"
       @game.player_hit
-      #TODO: mock bust
+      #TODO: mockbust
       expect(@game.player_hand).to eq("Spade,10|")
       expect(@game.deck_sleeve).to eq("Diamond,Ace|Heart,Ace|Heart,10|Spade,Ace|")
     end
 
-    it "#busts" do
+    it "busts" do
       @game.deck_sleeve = "Spade,9|Diamond,10|"
       @game.player_hand = "Spade,10|Heart,10|" 
       @game.player_hit
@@ -247,19 +247,16 @@ describe Game do
       expect(@game.hand_value hand).to eq(13)   
     end
     it "Ace,Jack" do
-      #TODO: special blackjack?
       hand = "Spade,Jack|Diamond,Ace|"
       expect(@game.hand_value hand).to eq(21)   
     end
 
     it "10,10,7" do
-      #TODO: special blackjack?
       hand = "Spade,10|Diamond,10|Spade,7|"
       expect(@game.hand_value hand).to eq(27)   
     end
 
     it "largest hand possible" do
-      #TODO: special blackjack?
       hand = "Spade,Ace|Heart,Ace|Club,Ace|Diamond,Ace|Club,2|Heart,2|Diamond,2|Spade,2|Spade,3|Heart,3|Diamond,3|"
       expect(@game.hand_value hand).to eq(21)   
     end
@@ -323,6 +320,16 @@ describe Game do
       @player.reload
       expect(@game.player_bet).to eq(0)
       expect(@player.total_chips).to eq(100) 
+    end
+  end
+
+  describe "#busts" do
+    it "over" do
+      expect(@game.bust?(22)).to eq(true)
+    end
+
+    it "under" do
+      expect(@game.bust?(21)).to eq(false)
     end
   end
 end

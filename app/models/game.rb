@@ -79,8 +79,9 @@ class Game < ActiveRecord::Base
   def player_hit
     card = self.get_card
     self.player_hand += card + "|"
-    if self.bust?(self.player_hand)
-      self.message = "Player Busted, place bet to start new hand."
+    player_value = hand_value(self.player_hand)
+    if self.bust?(player_value)
+      self.message = "Player Busted with #{player_value}"
       self.player_loses @player
     else
       self.save 
@@ -99,8 +100,8 @@ class Game < ActiveRecord::Base
     self.dealer_play
   end
 
-  def bust? hand
-    self.hand_value(hand) > 21
+  def bust? hand_value
+    hand_value > 21
   end
 
   def create_deck
@@ -163,24 +164,24 @@ class Game < ActiveRecord::Base
     player_value = self.hand_value(self.player_hand)
     #TODO: pass along player
     @player = Player.find(1)
-    if bust?(self.dealer_hand) 
+    if bust?(dealer_value) 
       self.player_wins @player
-      @outcome_msg = "Dealer Busted"
+      @outcome_msg = "Dealer Busted with #{dealer_value}"
     elsif player_value > dealer_value
       self.player_wins @player 
-      @outcome_msg = "Player beats Dealer"
+      self.message = "Player #{player_value} > Dealer: #{dealer_value}"
     elsif player_value < dealer_value
       self.player_loses @player
-      @outcome_msg = "Dealer beats Player"
+      self.message = "Player #{player_value} < Dealer: #{dealer_value}"
     else
       self.player_pushes @player
-      @outcome_msg = "Dealer ties with Player"
+      self.message = "Player #{player_value} = Dealer: #{dealer_value}"
     end
-    self.game_over @outcome_msg, player_value, dealer_value
+    self.game_over
   end
   
   def player_loses player
-    self.player_bet = 0
+    self.game_over
   end
 
   def player_wins player
@@ -193,14 +194,9 @@ class Game < ActiveRecord::Base
     player.save
   end
 
-  def game_over outcome_msg, player_value, dealer_value
-    self.create_message outcome_msg, player_value, dealer_value
+  def game_over
     self.player_bet = 0
     self.save
     player.game_over
-  end
-
-  def create_message outcome_msg, player_value, dealer_value
-    self.message = "#{outcome_msg}: dealer( #{dealer_value} ) VS player( #{player_value} ) || place bet to start new hand"
   end
 end
