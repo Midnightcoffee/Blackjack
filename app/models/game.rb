@@ -56,7 +56,6 @@ class Game < ActiveRecord::Base
     self.message = "You can Stand or Hit"
     self.player_bet = player_bet
     if self.save
-      #FIXME should probable tell player
       player.total_chips -= player_bet
       player.save
     end
@@ -82,8 +81,9 @@ class Game < ActiveRecord::Base
     player_value = hand_value(self.player_hand)
     if self.bust?(player_value)
       self.message = "Player Busted with #{player_value}"
-      self.player_loses @player
+      self.game_over
     else
+      #FIXME should probable tell player
       self.save 
     end
     self.deck_clean_up
@@ -166,24 +166,19 @@ class Game < ActiveRecord::Base
     @player = Player.find(1)
     if bust?(dealer_value) 
       self.player_wins @player
-      @outcome_msg = "Dealer Busted with #{dealer_value}"
+      self.message = "Dealer Busted with #{dealer_value}"
     elsif player_value > dealer_value
       self.player_wins @player 
       self.message = "Player wins with #{player_value} over Dealer's #{dealer_value}"
     elsif player_value < dealer_value
-      self.player_loses @player
-      self.message = "player loses with #{player_value} under Dealer's #{dealer_value}"
+      self.message = "Player loses with #{player_value} under Dealer's #{dealer_value}"
     else
       self.player_pushes @player
-      self.message = "push with Player: #{player_value} equal to Dealer's #{dealer_value}"
+      self.message = "Player pushes with #{player_value} equal to Dealer's #{dealer_value}"
     end
     self.game_over
   end
   
-  def player_loses player
-    self.game_over
-  end
-
   def player_wins player
     player.total_chips += (2 * self.player_bet)
     player.save
