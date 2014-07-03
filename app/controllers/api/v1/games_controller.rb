@@ -31,7 +31,6 @@ module Api
 
           render json: @game, except: Game.hidden, status: 201
         else
-          #FIXME: bettor error message  move message to centralized place
           @game.save
           render json: @game, except: Game.hidden, status: 403
         end
@@ -41,7 +40,6 @@ module Api
         @player = Player.find(params[:player_id])
         @game = @player.games.find(params[:id]);
         if @game.player_bet != 0
-          #TODO: better way to reference were hitting on player
           @game.player_hit
           render json: @game, except: Game.hidden, status: 201
         else
@@ -53,8 +51,6 @@ module Api
         @player = Player.find(params[:player_id])
         @game = @player.games.find(params[:id]);
         if @game.player_bet != 0
-
-          #TODO: better way to reference were hitting on player
           @game.stand
           render json: @game, except: Game.hidden, status: 201
         else

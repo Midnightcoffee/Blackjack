@@ -169,13 +169,13 @@ class Game < ActiveRecord::Base
       @outcome_msg = "Dealer Busted with #{dealer_value}"
     elsif player_value > dealer_value
       self.player_wins @player 
-      self.message = "Player #{player_value} > Dealer: #{dealer_value}"
+      self.message = "Player wins with #{player_value} over Dealer's #{dealer_value}"
     elsif player_value < dealer_value
       self.player_loses @player
-      self.message = "Player #{player_value} < Dealer: #{dealer_value}"
+      self.message = "player loses with #{player_value} under Dealer's #{dealer_value}"
     else
       self.player_pushes @player
-      self.message = "Player #{player_value} = Dealer: #{dealer_value}"
+      self.message = "push with Player: #{player_value} equal to Dealer's #{dealer_value}"
     end
     self.game_over
   end
