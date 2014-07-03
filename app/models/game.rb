@@ -160,7 +160,7 @@ class Game < ActiveRecord::Base
       @outcome_msg = "Player beats Dealer"
     elsif player_value < dealer_value
       self.player_loses @player
-        @outcome_msg = "Dealer beats Player"
+      @outcome_msg = "Dealer beats Player"
     else
       self.player_pushes @player
       @outcome_msg = "Dealer ties with Player"
@@ -174,10 +174,12 @@ class Game < ActiveRecord::Base
 
   def player_wins player
     player.total_chips += (2 * self.player_bet)
+    player.save
   end
 
   def player_pushes player
     player.total_chips += self.player_bet
+    player.save
   end
 
   def game_over outcome_msg, player_value, dealer_value

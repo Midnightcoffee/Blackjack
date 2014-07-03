@@ -9,7 +9,6 @@ class Player < ActiveRecord::Base
   end
 
   def game_over
-    self.save
     if self.broke?
       self.reset_chips_to_100
     end
