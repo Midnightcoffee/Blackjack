@@ -11,6 +11,7 @@ gem 'haml-rails', '~> 0.5.3'
 
 group :production do
   gem 'rails_12factor'
+  gem 'pg', '0.15.1'
 end
 
 group :test, :development do
