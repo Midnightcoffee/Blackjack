@@ -38,7 +38,18 @@ class Game < ActiveRecord::Base
   end
   
   def legal_bet? player, player_bet
-    player.enough_chips?(player_bet) && self.within_range?(player_bet) && self.player_bet == 0
+    @legal = true
+    if not player.enough_chips?(player_bet)
+      self.message = "Not enough chips"
+      @legal = false
+    elsif not self.within_range?(player_bet)
+      self.message = "Bet not in range #{self.min_bet} - #{self.max_bet}"
+      @legal = false
+    elsif not self.player_bet == 0
+      self.message = "Already bet"
+      @legal = false
+    end
+    @legal
   end
 
   def place_bet player, player_bet
