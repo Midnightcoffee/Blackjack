@@ -1,7 +1,7 @@
 Blackjack
 =========
 
-A mostly* BDD driving single player blackjack game.
+A mostly* BDD driving single player blackjack game that lives here: http://polar-sea-3421.herokuapp.com/
 
 Mostly because I believe true BDD requires an actual client. Sense this was a 
 bootcamp project at my internship in 2014 at Atomic Object my client was my
